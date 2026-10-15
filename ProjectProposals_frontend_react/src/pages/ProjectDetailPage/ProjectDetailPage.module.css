@@ -2,35 +2,36 @@
    VARIABLES (Local component variables)
    ========================================== */
 .pageContainer {
-  --status-pending-bg: #eff6ff;
-  --status-pending-border: #bfdbfe;
-  --status-pending-text: #1d4ed8;
-  --status-pending-badge: #dbeafe;
+  --status-pending-bg: var(--primary-light);
+  --status-pending-border: var(--primary-border);
+  --status-pending-text: var(--primary-color);
+  --status-pending-badge: var(--primary-light);
 
-  --status-approved-bg: #f0fdf4;
-  --status-approved-border: #bbf7d0;
-  --status-approved-text: #166534;
-  --status-approved-badge: #dcfce7;
+  --status-approved-bg: var(--success-light);
+  --status-approved-border: var(--success-border);
+  --status-approved-text: var(--success-contrast);
+  --status-approved-badge: var(--success-light);
 
-  --status-rejected-bg: #fef2f2;
-  --status-rejected-border: #fecaca;
-  --status-rejected-text: #991b1b;
-  --status-rejected-badge: #fee2e2;
+  --status-rejected-bg: var(--error-light);
+  --status-rejected-border: var(--error-border);
+  --status-rejected-text: var(--error-contrast);
+  --status-rejected-badge: var(--error-light);
 
   --badge-code-bg: var(--secondary-color);
-  --badge-code-text: #334155;
+  --badge-code-text: var(--text-muted);
   --badge-code-border: var(--border-color);
 
-  --badge-applicant-bg: #eff6ff;
-  --badge-applicant-text: #1e40af;
-  --badge-applicant-border: #bfdbfe;
+  --badge-applicant-bg: var(--primary-light);
+  --badge-applicant-text: var(--primary-color);
+  --badge-applicant-border: var(--primary-border);
 
-  --step-progress-color: #475569;
-  --metric-label-color: #475569;
+  --step-progress-color: var(--text-light);
+  --metric-label-color: var(--text-light);
 
   --timeline-line-color: var(--border-color);
   --timeline-active-glow: rgba(59, 130, 246, 0.25);
-  --timeline-active-bg: #f8fafc;
+  --timeline-active-bg: var(--primary-light);
+  --timeline-active-border: var(--primary-border);
 }
 
 /* ==========================================
@@ -376,7 +377,7 @@
 
 .nextApproverDescription {
   font-size: 0.925rem;
-  color: var(--text-color);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -467,7 +468,7 @@
 .descriptionText {
   font-size: 0.95rem;
   line-height: 1.6;
-  color: var(--text-color);
+  color: var(--text-muted);
   margin: 0;
   white-space: pre-wrap;
 }
@@ -511,10 +512,19 @@
 }
 
 .timelineItemActive {
+  /* Marker and line remain in perfect vertical alignment */
+}
+
+.timelineItemActive .timelineContent {
   background-color: var(--timeline-active-bg);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-sm);
-  margin: var(--spacing-lg) 0;
+  border: 1px solid var(--timeline-active-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.timelineItemActive .observationBox {
+  background-color: var(--surface-color);
 }
 
 .stepApproverRole {

@@ -18,7 +18,7 @@ import { STATUS_IDS } from "@/config";
 
 import { Card, Badge } from "@/components/ui";
 import { useProjectDetail, useTranslation } from "@/hooks";
-import { formatCurrency } from "@/utils";
+import { formatCurrency, getStatusBadgeVariant } from "@/utils";
 
 import styles from "./ProjectDetailPage.module.css";
 
@@ -105,15 +105,7 @@ export default function ProjectDetailPage() {
           <div className={styles.headerInfo}>
             <div className={styles.titleRow}>
               <h1 className={styles.title}>{project.title}</h1>
-              <Badge
-                variant={
-                  project.status?.name?.toLowerCase().includes("approv")
-                    ? "success"
-                    : project.status?.name?.toLowerCase().includes("reject")
-                    ? "error"
-                    : "warning"
-                }
-              >
+              <Badge variant={getStatusBadgeVariant(project.status?.id ?? project.status?.name)}>
                 {translateStatus(project.status) || t("pages.projectDetail.notAvailable")}
               </Badge>
             </div>
@@ -280,6 +272,12 @@ export default function ProjectDetailPage() {
               <ol className={styles.stepsTimeline}>
                 {steps.map((step) => {
                   const isCurrentPending = nextPendingStep?.id === step.id;
+                  const isApproved =
+                    step.status?.id === STATUS_IDS.APPROVED ||
+                    Boolean(step.status?.name && (step.status.name.toLowerCase().includes("approv") || step.status.name.toLowerCase().includes("aprob")));
+                  const isRejected =
+                    step.status?.id === STATUS_IDS.REJECTED ||
+                    Boolean(step.status?.name && (step.status.name.toLowerCase().includes("reject") || step.status.name.toLowerCase().includes("rechaz")));
 
                   return (
                     <li
@@ -291,9 +289,9 @@ export default function ProjectDetailPage() {
                       <div className={styles.timelineMarker}>
                         <div
                           className={`${styles.timelineBadge} ${
-                            step.status?.name?.toLowerCase().includes("approv")
+                            isApproved
                               ? styles.timelineBadgeSuccess
-                              : step.status?.name?.toLowerCase().includes("reject")
+                              : isRejected
                               ? styles.timelineBadgeError
                               : isCurrentPending
                               ? styles.timelineBadgePending
@@ -313,15 +311,7 @@ export default function ProjectDetailPage() {
                               role: translateRole(step.approverRole),
                             })}
                           </h4>
-                          <Badge
-                            variant={
-                              step.status?.name?.toLowerCase().includes("approv")
-                                ? "success"
-                                : step.status?.name?.toLowerCase().includes("reject")
-                                ? "error"
-                                : "secondary"
-                            }
-                          >
+                          <Badge variant={getStatusBadgeVariant(step.status?.id ?? step.status?.name)}>
                             {translateStatus(step.status) || t("pages.projectDetail.notAvailable")}
                           </Badge>
                         </div>
