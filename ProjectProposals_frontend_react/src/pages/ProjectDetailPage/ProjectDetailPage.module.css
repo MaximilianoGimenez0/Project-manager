@@ -1,0 +1,651 @@
+/* ==========================================
+   VARIABLES (Local component variables)
+   ========================================== */
+.pageContainer {
+  --status-pending-bg: #eff6ff;
+  --status-pending-border: #bfdbfe;
+  --status-pending-text: #1d4ed8;
+  --status-pending-badge: #dbeafe;
+
+  --status-approved-bg: #f0fdf4;
+  --status-approved-border: #bbf7d0;
+  --status-approved-text: #166534;
+  --status-approved-badge: #dcfce7;
+
+  --status-rejected-bg: #fef2f2;
+  --status-rejected-border: #fecaca;
+  --status-rejected-text: #991b1b;
+  --status-rejected-badge: #fee2e2;
+
+  --badge-code-bg: var(--secondary-color);
+  --badge-code-text: #334155;
+  --badge-code-border: var(--border-color);
+
+  --badge-applicant-bg: #eff6ff;
+  --badge-applicant-text: #1e40af;
+  --badge-applicant-border: #bfdbfe;
+
+  --step-progress-color: #475569;
+  --metric-label-color: #475569;
+
+  --timeline-line-color: var(--border-color);
+  --timeline-active-glow: rgba(59, 130, 246, 0.25);
+  --timeline-active-bg: #f8fafc;
+}
+
+/* ==========================================
+   LAYOUT (Flexbox/Grid positioning)
+   ========================================== */
+.pageContainer {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--spacing-lg) var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--navbar-height, 64px));
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.navigationBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  min-height: 44px;
+}
+
+.headerSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.titleRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+}
+
+.nextApproverSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.nextApproverLayout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.nextApproverLeft {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+}
+
+.nextApproverContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  flex: 1;
+}
+
+.nextApproverHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.roleDisplayRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+}
+
+.mainGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.primaryColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  flex: 1;
+}
+
+.secondaryColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.stepsTimeline {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.timelineItem {
+  display: flex;
+  gap: var(--spacing-md);
+  position: relative;
+  padding-bottom: var(--spacing-xl);
+}
+
+.timelineItem:last-child {
+  padding-bottom: 0;
+}
+
+.timelineMarker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.timelineLine {
+  width: 2px;
+  flex: 1;
+  background-color: var(--timeline-line-color);
+  margin-top: 4px;
+}
+
+.timelineItem:last-child .timelineLine {
+  display: none;
+}
+
+.timelineContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.stepTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.stepDetailsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.stepDetailItem {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-xs);
+  font-size: 0.875rem;
+}
+
+.applicantProfile {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.applicantInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ==========================================
+   ELEMENTS (camelCase classes)
+   ========================================== */
+.stateWrapper {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--spacing-md);
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.stateText {
+  color: var(--text-color);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.errorIcon {
+  font-size: 2.5rem;
+  color: var(--error-color);
+}
+
+.errorTitle {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  min-height: 44px;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color var(--transition);
+}
+
+.backButton:hover {
+  background-color: var(--primary-hover);
+  color: #ffffff;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-height: 44px;
+  padding: var(--spacing-xs) var(--spacing-xs);
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 0.925rem;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition);
+}
+
+.backLink:hover {
+  color: var(--primary-hover);
+}
+
+.projectCodeBadge {
+  font-family: monospace;
+  font-size: 0.825rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 6px 12px;
+  background-color: var(--badge-code-bg);
+  color: var(--badge-code-text);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--badge-code-border);
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.nextApproverCard {
+  border: 1px solid var(--primary-border);
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--surface-color) 60%);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.roleIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+}
+
+.roleIconPending {
+  background-color: var(--status-pending-badge);
+  color: var(--status-pending-text);
+}
+
+.roleIconCompleted {
+  background-color: var(--status-approved-badge);
+  color: var(--status-approved-text);
+}
+
+.nextApproverTag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--status-pending-text);
+}
+
+.stepProgressText {
+  font-size: 0.8rem;
+  color: var(--step-progress-color);
+  font-weight: 600;
+}
+
+.roleName {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.nextApproverDescription {
+  font-size: 0.925rem;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.nextApproverAction {
+  display: flex;
+  align-items: center;
+  margin-top: var(--spacing-xs);
+}
+
+.decideNowButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-height: 44px;
+}
+
+.metricCard {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.metricCard:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.metricIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.metricData {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.metricLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--metric-label-color);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.metricValue {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+
+.sectionCard {
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-color);
+}
+
+.sectionIcon {
+  font-size: 1.25rem;
+  color: var(--primary-color);
+}
+
+.sectionHeading {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.descriptionText {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-color);
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.timelineBadge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  border: 2px solid transparent;
+}
+
+.timelineBadgeSuccess {
+  background-color: var(--status-approved-badge);
+  color: var(--status-approved-text);
+  border-color: var(--status-approved-border);
+}
+
+.timelineBadgeError {
+  background-color: var(--status-rejected-badge);
+  color: var(--status-rejected-text);
+  border-color: var(--status-rejected-border);
+}
+
+.timelineBadgePending {
+  background-color: var(--status-pending-badge);
+  color: var(--status-pending-text);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--timeline-active-glow);
+}
+
+.timelineBadgeInactive {
+  background-color: var(--secondary-color);
+  color: var(--text-light);
+  border-color: var(--border-color);
+}
+
+.timelineItemActive {
+  background-color: var(--timeline-active-bg);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm);
+  margin: var(--spacing-lg) 0;
+}
+
+.stepApproverRole {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.detailLabel {
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.detailValue {
+  color: var(--text-color);
+}
+
+.stepObservations {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.observationBox {
+  background-color: var(--secondary-color);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--text-color);
+  margin: 0;
+  font-style: italic;
+  border: 1px solid var(--border-color);
+}
+
+.stepActionContainer {
+  margin-top: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+}
+
+.applicantProfile {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.applicantAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.applicantName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.applicantEmail {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  word-break: break-all;
+}
+
+.applicantRoleBadge {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: var(--badge-applicant-text);
+  background-color: var(--badge-applicant-bg);
+  border: 1px solid var(--badge-applicant-border);
+  padding: 3px 10px;
+  border-radius: 9999px;
+  width: fit-content;
+}
+
+/* ==========================================
+   RESPONSIVE (Mobile-first queries)
+   ========================================== */
+@media (min-width: 480px) {
+  .metricsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .titleRow {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nextApproverLayout {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 1024px) {
+  .metricsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .mainGrid {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .secondaryColumn {
+    width: 320px;
+    flex-shrink: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+    border-top-color: var(--primary-color);
+    opacity: 0.75;
+  }
+}

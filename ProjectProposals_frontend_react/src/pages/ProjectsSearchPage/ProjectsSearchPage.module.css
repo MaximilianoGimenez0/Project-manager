@@ -1,0 +1,210 @@
+.pageContainer {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    min-height: calc(100vh - var(--navbar-height, 64px));
+}
+
+.header {
+    margin-bottom: 0;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text-color);
+    margin: 0 0 var(--spacing-xs) 0;
+    letter-spacing: -0.02em;
+}
+
+.headerIcon {
+    color: var(--primary-color);
+    flex-shrink: 0;
+}
+
+.subtitle {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin: 0;
+}
+
+/* ==========================================
+   FILTER TOOLBAR SECTION (Single Card)
+   ========================================== */
+.filtersSection {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-xs);
+    transition: border-color var(--transition);
+}
+
+.filtersHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.filtersTitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.filtersIcon {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    flex-shrink: 0;
+}
+
+/* ==========================================
+   RESULTS SECTION & GRID
+   ========================================== */
+.resultsSection {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.resultsHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+}
+
+.resultsCountBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-full);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.resultsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-lg);
+}
+
+
+/* ==========================================
+   LOADING & EMPTY STATES
+   ========================================== */
+.loadingState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--spacing-xxl) * 2);
+    color: var(--text-light);
+    gap: var(--spacing-md);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.emptyState {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--spacing-xxl) * 1.5) var(--spacing-xl);
+    background-color: var(--surface-color);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--border-color);
+    text-align: center;
+    gap: var(--spacing-xs);
+}
+
+.emptyIcon {
+    font-size: 2.75rem;
+    color: var(--text-light);
+    opacity: 0.7;
+    margin-bottom: var(--spacing-xs);
+}
+
+.emptyTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.emptyDesc {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    max-width: 440px;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.emptyActions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.createLink {
+    text-decoration: none;
+    outline: none;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+@media (max-width: 1024px) {
+    .resultsGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .pageContainer {
+        padding: var(--spacing-md);
+        gap: var(--spacing-lg);
+    }
+
+    .title {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .resultsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+

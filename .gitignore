@@ -1,0 +1,149 @@
+# ==============================================================================
+# Monorepo Root .gitignore - Project Manager
+# Protege globalmente ambos proyectos (Backend .NET 8 y Frontend React Vite)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Archivos del Sistema Operativo
+# ------------------------------------------------------------------------------
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.directory
+*~
+
+# ------------------------------------------------------------------------------
+# 2. Entornos y Secretos Sensibles
+# ------------------------------------------------------------------------------
+# Archivos de variables de entorno (pueden contener credenciales de BD, JWT keys, etc.)
+.env
+.env.*
+!.env.example
+*.local
+*.secrets
+secrets.json
+
+# Certificados y llaves criptográficas privadas
+*.pfx
+*.p12
+*.cer
+*.crt
+*.pem
+*.key
+*.pub
+id_rsa*
+id_ed25519*
+
+# Credenciales de Cloud / Servicios
+*firebase-adminsdk*.json
+service-account*.json
+.runtimeconfig.json
+
+# ------------------------------------------------------------------------------
+# 3. Entornos de Desarrollo e IDEs (Global)
+# ------------------------------------------------------------------------------
+# Visual Studio / MonoDevelop
+.vs/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# JetBrains (Rider, WebStorm, etc.)
+.idea/
+*.iws
+*.iml
+
+# Editores secundarios y archivos de swap
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# ------------------------------------------------------------------------------
+# 4. Logs y Archivos Temporales
+# ------------------------------------------------------------------------------
+*.log
+logs/
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# Logs de gestores de paquetes
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ------------------------------------------------------------------------------
+# 5. Dependencias y Paquetes
+# ------------------------------------------------------------------------------
+node_modules/
+packages/
+.pnp
+.pnp.js
+.npm/
+.pnpm-store/
+
+# ------------------------------------------------------------------------------
+# 6. Salidas de Compilación y Artefactos
+# ------------------------------------------------------------------------------
+dist/
+dist-ssr/
+build/
+out/
+publish/
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+
+# ------------------------------------------------------------------------------
+# 7. Testing y Reportes de Cobertura
+# ------------------------------------------------------------------------------
+[Tt]est[Rr]esults/
+coverage/
+.nyc_output/
+*.trx
+*.coverage*
+
+# ------------------------------------------------------------------------------
+# 8. Caches de Compiladores y Linters
+# ------------------------------------------------------------------------------
+.vite/
+*.tsbuildinfo
+.eslintcache
+.cache/
+
+# ------------------------------------------------------------------------------
+# 9. Firebase CLI Cache & Hosting
+# ------------------------------------------------------------------------------
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+
+# ------------------------------------------------------------------------------
+# 10. Asistentes de IA y Herramientas Locales
+# ------------------------------------------------------------------------------
+.agent/
+.gemini/
+.impeccable/
+.opencode/
+.claude/
+.cursor/
+.copilot/

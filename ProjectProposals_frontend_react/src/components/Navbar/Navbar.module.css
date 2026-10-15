@@ -1,0 +1,391 @@
+/* ==========================================
+   VARIABLES (Local component variables)
+   ========================================== */
+.header {
+  --navbar-height: 64px;
+  --navbar-badge-bg: var(--primary-light);
+  --navbar-badge-text: var(--primary-hover);
+  --navbar-profile-badge-bg: var(--secondary-color);
+  --navbar-profile-badge-text: var(--primary-color);
+  --navbar-danger-hover-bg: var(--error-light);
+  --navbar-danger-text: var(--error-contrast);
+}
+
+/* ==========================================
+   LAYOUT (Flexbox/Grid positioning)
+   ========================================== */
+.header {
+  background-color: var(--surface-color);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: var(--shadow-xs);
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--spacing-xl);
+  height: var(--navbar-height);
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.brandContainer {
+  display: flex;
+  align-items: center;
+}
+
+.navLinks {
+  display: none;
+}
+
+.navLinksOpen {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: var(--navbar-height);
+  left: 0;
+  width: 100%;
+  background-color: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--spacing-md) var(--spacing-xl);
+  box-shadow: var(--shadow-md);
+  z-index: 40;
+}
+
+.rightSection {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.userMenuContainer {
+  position: relative;
+}
+
+.userInfoInline {
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 260px;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: fadeInDown 0.2s ease-out;
+  z-index: 60;
+}
+
+.dropdownHeader {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background-color: var(--background-color);
+}
+
+.dropdownActions {
+  padding: var(--spacing-xs);
+}
+
+/* ==========================================
+   ELEMENTS (camelCase classes)
+   ========================================== */
+.brandLink {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-color);
+  text-decoration: none;
+  letter-spacing: -0.025em;
+  transition: opacity var(--transition);
+}
+
+.brandLink:hover {
+  opacity: 0.9;
+}
+
+.link {
+  text-decoration: none;
+  color: var(--text-light);
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-md);
+  transition: all var(--transition);
+}
+
+.link:hover {
+  color: var(--text-color);
+  background-color: var(--secondary-color);
+}
+
+.active {
+  color: var(--primary-color);
+  background-color: var(--secondary-color);
+}
+
+.mobileLoginItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background-color var(--transition);
+}
+
+.mobileLoginItem:hover {
+  background-color: var(--primary-hover);
+  color: white;
+}
+
+.burgerButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition);
+  cursor: pointer;
+}
+
+.burgerButton:hover {
+  background-color: var(--secondary-color);
+}
+
+.burgerButton:focus-visible,
+.userButton:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.userButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background: transparent;
+  transition: all var(--transition);
+}
+
+.userButton:hover,
+.userButton[aria-expanded="true"] {
+  background-color: var(--secondary-color);
+  border-color: var(--border-color);
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+  color: white;
+  border-radius: 50%;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.userName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-color);
+  line-height: 1.2;
+}
+
+.roleBadge {
+  font-size: 0.725rem;
+  font-weight: 600;
+  color: var(--navbar-badge-text);
+  background-color: var(--navbar-badge-bg);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  line-height: 1.2;
+}
+
+.chevron {
+  color: var(--text-light);
+  transition: transform var(--transition);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.profileName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.profileEmail {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  word-break: break-all;
+}
+
+.profileRole {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--navbar-profile-badge-text);
+  background-color: var(--navbar-profile-badge-bg);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  width: fit-content;
+}
+
+.roleIcon {
+  font-size: 0.85rem;
+}
+
+.dropdownDivider {
+  height: 1px;
+  background-color: var(--border-color);
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  color: var(--navbar-danger-text);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: left;
+  transition: background-color var(--transition);
+}
+
+.logoutButton:hover {
+  background-color: var(--navbar-danger-hover-bg);
+}
+
+.logoutButton:focus-visible {
+  outline: 2px solid var(--error-color);
+  outline-offset: -2px;
+}
+
+.logoutIcon {
+  font-size: 1.1rem;
+}
+
+.loginLink {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  min-height: 44px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color var(--transition);
+}
+
+.loginLink:hover {
+  background-color: var(--primary-hover);
+  color: white;
+}
+
+.loginLink:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dropdownMenu {
+    animation: none;
+  }
+}
+
+/* ==========================================
+   RESPONSIVE (Mobile-first queries)
+   ========================================== */
+@media (min-width: 480px) {
+  .loginLink {
+    display: inline-flex;
+  }
+}
+
+@media (min-width: 768px) {
+  .navLinks {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  .navLinksOpen {
+    position: static;
+    flex-direction: row;
+    padding: 0;
+    width: auto;
+    background-color: transparent;
+    border-bottom: none;
+    box-shadow: none;
+  }
+
+  .mobileLoginItem {
+    display: none;
+  }
+
+  .burgerButton {
+    display: none;
+  }
+
+  .userInfoInline {
+    display: flex;
+  }
+}

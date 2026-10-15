@@ -1,0 +1,14 @@
+# ==============================================================================
+# Alternativa: Ejecución directa con "docker run" en PowerShell (sin Compose)
+# ==============================================================================
+
+docker run -d `
+  --name postgres-dev `
+  --restart unless-stopped `
+  -e POSTGRES_USER=maxxi `
+  -e POSTGRES_PASSWORD=MiClaveLocal123 `
+  -e POSTGRES_DB=projectapproval `
+  -e PGDATA=/var/lib/postgresql/data/pgdata `
+  -p 5532:5432 `
+  -v postgres_data:/var/lib/postgresql/data `
+  postgres:18-alpine

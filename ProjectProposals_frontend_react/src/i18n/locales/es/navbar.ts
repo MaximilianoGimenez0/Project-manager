@@ -1,0 +1,17 @@
+export const navbar = {
+  language: 'Idioma',
+  dashboard: 'Panel',
+  newProject: 'Nuevo Proyecto',
+  explore: 'Explorar',
+  approvals: 'Aprobaciones',
+  about: 'Acerca de',
+  selectUser: 'Seleccionar Usuario',
+  switchAccount: 'Cambiar de Cuenta',
+  unknown: 'Desconocido',
+  login: 'Iniciar Sesión',
+  logout: 'Cerrar Sesión',
+  logoutSuccess: 'Sesión cerrada exitosamente',
+  role: 'Rol',
+  myAccount: 'Mi Cuenta',
+  toggleMenu: 'Alternar menú de navegación',
+} as const;

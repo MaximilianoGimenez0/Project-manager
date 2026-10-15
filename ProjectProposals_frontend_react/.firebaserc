@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "portfolio-d3811"
+  },
+  "targets": {
+    "portfolio-d3811": {
+      "hosting": {
+        "project-manager": [
+          "project-manager-6b5c0"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

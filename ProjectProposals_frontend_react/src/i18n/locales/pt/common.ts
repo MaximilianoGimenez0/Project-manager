@@ -1,0 +1,17 @@
+export const common = {
+  loading: 'Carregando...',
+  save: 'Salvar',
+  cancel: 'Cancelar',
+  delete: 'Excluir',
+  edit: 'Editar',
+  create: 'Criar',
+  search: 'Pesquisar',
+  error: 'Ocorreu um erro',
+  success: 'Operação bem-sucedida',
+  language: 'Idioma',
+  closeAlert: 'Fechar alerta',
+  close: 'Fechar',
+  themeToggle: 'Alternar tema',
+  lightTheme: 'Ativar modo claro',
+  darkTheme: 'Ativar modo escuro',
+} as const;

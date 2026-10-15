@@ -1,0 +1,70 @@
+export const projects = {
+  card: {
+    type: 'Tipo:',
+    area: 'Área:',
+    amount: 'Valor:',
+    duration: 'Duração:',
+    months: 'meses',
+    details: 'Detalhes do Projeto',
+    applicant: 'Solicitante (Usuário)',
+    name: 'Nome:',
+    email: 'E-mail:',
+    role: 'Função:',
+    noUser: 'Nenhum usuário atribuído.',
+    steps: 'Etapas de Aprovação',
+    step: 'Etapa {order}',
+    approverRole: 'Função do Aprovador:',
+    approverUser: 'Usuário Aprovador:',
+    pendingAssignment: 'Atribuição pendente',
+    decisionDate: 'Data da Decisão:',
+    observations: 'Observações:',
+    decide: 'Decidir',
+    notAvailable: 'N/D',
+    viewDetailsFor: 'Ver proposta {title}',
+    viewProposal: 'Ver proposta'
+  },
+  messages: {
+    decisionSuccess: 'Decisão processada e salva com sucesso.',
+    decisionError: 'Não foi possível processar a decisão. Tente novamente mais tarde.',
+    creatorCannotApprove: 'Não é possível aprovar esta etapa por ser o criador do projeto.'
+  },
+  form: {
+    user: 'Usuário:',
+    userWarning: 'Por favor, selecione uma conta no menu de navegação superior para enviar esta proposta.',
+    title: 'Título',
+    description: 'Descrição',
+    amount: 'Valor solicitado',
+    duration: 'Duração do projeto',
+    selectArea: 'Selecione a área',
+    selectType: 'Selecione o tipo',
+    creating: 'Criando...',
+    create: 'Criar Projeto',
+    formattedPreview: 'Pré-visualização do valor:',
+    author: 'Autor da proposta',
+    previewTitle: 'Pré-visualização em tempo real',
+    previewNotice: 'É assim que sua proposta será exibida no diretório institucional.',
+    previewEmptyTitle: 'Título da proposta...',
+    previewEmptyDesc: 'Digite uma descrição para visualizar aqui o resumo da proposta.',
+    unspecified: 'Não especificado',
+    draftBadge: 'Rascunho'
+  },
+  filters: {
+    title: 'Título',
+    searchTitle: 'Pesquisar por título...',
+    status: 'Status',
+    allStatuses: 'Todos os status',
+    creator: 'Criador',
+    allCreators: 'Todos os criadores',
+    approver: 'Aprovador',
+    allApprovers: 'Todos os aprovadores',
+    search: 'Pesquisar'
+  },
+  modal: {
+    title: 'Tomar Decisão',
+    status: 'Status',
+    selectStatus: 'Selecione um status',
+    observation: 'Observação',
+    cancel: 'Cancelar',
+    confirm: 'Confirmar'
+  }
+} as const;

@@ -1,0 +1,296 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+}
+
+/* ==========================================
+   AUTHOR CARD (+5% scale)
+   ========================================== */
+.authorCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 15px;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+}
+
+.authorAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(37, 99, 235, 0.2);
+}
+
+.authorContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.authorPrimaryRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.authorName {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-color);
+  line-height: 1.25;
+}
+
+.authorTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--primary-color);
+}
+
+.tagIcon {
+  font-size: 0.9rem;
+}
+
+.authorRoleBadge {
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 2px 9px;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  color: var(--text-light);
+}
+
+.authorEmail {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  line-height: 1.25;
+}
+
+.userWarning {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 13px;
+  background-color: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: var(--radius-md);
+  color: var(--warning-contrast, #92400e);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.warningIcon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* ==========================================
+   FIELDS & LABELS (+5% scale)
+   ========================================== */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.labelRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.label {
+  font-size: 0.975rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.requiredMark {
+  color: var(--error-contrast, #b91c1c);
+}
+
+.charCounter {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  font-variant-numeric: tabular-nums;
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  font-size: 0.975rem;
+  font-family: inherit;
+  transition: all var(--transition);
+  box-sizing: border-box;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--text-light);
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.input[aria-invalid="true"],
+.textarea[aria-invalid="true"],
+.select[aria-invalid="true"] {
+  border-color: var(--error-contrast, #b91c1c);
+}
+
+.textarea {
+  min-height: 74px;
+  height: 78px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.twoColGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.8rem;
+}
+
+@media (min-width: 600px) {
+  .twoColGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ==========================================
+   INPUT AFFIXES
+   ========================================== */
+.inputAffixGroup {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.prefixAffix {
+  position: absolute;
+  left: 12px;
+  font-weight: 700;
+  color: var(--text-light);
+  pointer-events: none;
+  font-size: 1rem;
+}
+
+.inputWithPrefix {
+  padding-left: 30px;
+}
+
+.suffixAffix {
+  position: absolute;
+  right: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-light);
+  pointer-events: none;
+}
+
+.inputWithSuffix {
+  padding-right: 66px;
+}
+
+/* ==========================================
+   AMOUNT LIVE FORMATTED PILL
+   ========================================== */
+.amountPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 3px;
+  padding: 3px 11px;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  width: fit-content;
+}
+
+.amountPillLabel {
+  color: var(--text-light);
+}
+
+.amountPillValue {
+  color: var(--primary-color);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* ==========================================
+   SELECT
+   ========================================== */
+.select {
+  cursor: pointer;
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--text-light) 50%),
+    linear-gradient(135deg, var(--text-light) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(1.1rem + 1px),
+    calc(100% - 13px) calc(1.1rem + 1px);
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+}
+
+.input:disabled,
+.textarea:disabled,
+.select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--background-color);
+}
+
+.error {
+  font-size: 0.82rem;
+  color: var(--error-contrast, #b91c1c);
+  font-weight: 500;
+  display: block;
+}
+
+/* ==========================================
+   FOOTER ACTIONS
+   ========================================== */
+.formFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2px;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
+}

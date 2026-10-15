@@ -1,0 +1,14 @@
+**/.git
+**/.vs
+**/.idea
+**/.vscode
+**/bin
+**/obj
+**/*.user
+*.md
+.gitignore
+.env
+.env.*
+secrets.json
+*.pfx
+*.key

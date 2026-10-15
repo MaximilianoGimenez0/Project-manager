@@ -1,0 +1,17 @@
+export const navbar = {
+  language: 'Language',
+  dashboard: 'Dashboard',
+  newProject: 'New Project',
+  explore: 'Explore',
+  approvals: 'Approvals',
+  about: 'About',
+  selectUser: 'Select User',
+  switchAccount: 'Switch Account',
+  unknown: 'Unknown',
+  login: 'Sign In',
+  logout: 'Sign Out',
+  logoutSuccess: 'Signed out successfully',
+  role: 'Role',
+  myAccount: 'My Account',
+  toggleMenu: 'Toggle navigation menu',
+} as const;

@@ -1,0 +1,114 @@
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-color);
+  transition: all var(--transition);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.button:hover,
+.button[aria-expanded="true"] {
+  background-color: var(--secondary-color);
+  border-color: var(--border-color);
+}
+
+.icon {
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
+.flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.code {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.chevron {
+  color: var(--text-light);
+  transition: transform var(--transition);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 160px;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  animation: fadeInDown 0.2s ease-out;
+  z-index: 100;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.list {
+  padding: var(--spacing-xs) 0;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-height: 44px;
+  gap: var(--spacing-sm);
+  background: transparent;
+  border: none;
+  text-align: left;
+  transition: background-color var(--transition);
+  cursor: pointer;
+  color: var(--text-color);
+  font-family: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dropdownMenu {
+    animation: none;
+  }
+}
+
+.option:hover {
+  background-color: var(--secondary-color);
+}
+
+.optionFlag {
+  font-size: 1.1rem;
+}
+
+.optionLabel {
+  flex: 1;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.check {
+  color: var(--primary-color);
+}

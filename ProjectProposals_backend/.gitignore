@@ -1,0 +1,105 @@
+# ==============================================================================
+# .gitignore - Project Proposals Backend (.NET 8 & PostgreSQL)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Compilación y Artefactos de Salida
+# ------------------------------------------------------------------------------
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+publish/
+artifacts/
+
+# ------------------------------------------------------------------------------
+# 2. Entornos de Desarrollo e IDEs
+# ------------------------------------------------------------------------------
+# Visual Studio
+.vs/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# JetBrains Rider
+.idea/
+*.iws
+*.iml
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# ------------------------------------------------------------------------------
+# 3. Archivos de Configuración Local y Secretos Sensibles
+# ------------------------------------------------------------------------------
+# Permite appsettings.json base y appsettings.example.json, pero ignora cualquier
+# sobrescritura por entorno (appsettings.Development.json, appsettings.Production.json, etc.)
+appsettings.*.json
+!appsettings.json
+!appsettings.example.json
+
+# User Secrets de .NET
+secrets.json
+
+# Variables de entorno locales (credenciales de BD, JWT Secret Key)
+.env
+.env.*
+!.env.example
+*.local
+*.secrets
+
+# Llaves criptográficas y certificados SSL/TLS
+*.pfx
+*.p12
+*.cer
+*.crt
+*.pem
+*.key
+
+# ------------------------------------------------------------------------------
+# 4. Bases de Datos, Entity Framework y Volúmenes Locales
+# ------------------------------------------------------------------------------
+*.dbmdl
+*.mdf
+*.ldf
+*.db
+*.sqlite
+*.sqlite3
+postgres_data/
+pgdata/
+
+# ------------------------------------------------------------------------------
+# 5. Testing y Reportes de Cobertura
+# ------------------------------------------------------------------------------
+[Tt]est[Rr]esults/
+coverage/
+*.trx
+*.coverage*
+
+# ------------------------------------------------------------------------------
+# 6. Paquetes NuGet y Caches
+# ------------------------------------------------------------------------------
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+
+# ------------------------------------------------------------------------------
+# 7. Logs y Temporales
+# ------------------------------------------------------------------------------
+*.log
+logs/
+*.tmp
+*.temp
+*.bak
+
+# ------------------------------------------------------------------------------
+# 8. Sistema Operativo
+# ------------------------------------------------------------------------------
+Thumbs.db
+Desktop.ini
+.DS_Store

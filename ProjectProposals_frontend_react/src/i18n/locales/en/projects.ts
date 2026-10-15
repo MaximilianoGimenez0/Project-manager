@@ -1,0 +1,70 @@
+export const projects = {
+  card: {
+    type: 'Type:',
+    area: 'Area:',
+    amount: 'Amount:',
+    duration: 'Duration:',
+    months: 'months',
+    details: 'Project Details',
+    applicant: 'Applicant (User)',
+    name: 'Name:',
+    email: 'Email:',
+    role: 'Role:',
+    noUser: 'No user assigned.',
+    steps: 'Approval Steps',
+    step: 'Step {order}',
+    approverRole: 'Approver Role:',
+    approverUser: 'Approver User:',
+    pendingAssignment: 'Pending assignment',
+    decisionDate: 'Decision Date:',
+    observations: 'Observations:',
+    decide: 'Decide',
+    notAvailable: 'N/A',
+    viewDetailsFor: 'View proposal {title}',
+    viewProposal: 'View proposal'
+  },
+  messages: {
+    decisionSuccess: 'Decision processed and saved successfully.',
+    decisionError: 'Could not process the decision. Please try again later.',
+    creatorCannotApprove: 'Cannot approve this step because you are the creator of the project.'
+  },
+  form: {
+    user: 'User:',
+    userWarning: 'Please select an account from the top navigation menu to submit this proposal.',
+    title: 'Title',
+    description: 'Description',
+    amount: 'Requested amount',
+    duration: 'Project duration',
+    selectArea: 'Select area',
+    selectType: 'Select type',
+    creating: 'Creating...',
+    create: 'Create Project',
+    formattedPreview: 'Budget preview:',
+    author: 'Proposal Author',
+    previewTitle: 'Real-time Proposal Preview',
+    previewNotice: 'This is how your proposal will appear in the institutional directory.',
+    previewEmptyTitle: 'Proposal Title...',
+    previewEmptyDesc: 'Enter a description to see the proposal summary preview here.',
+    unspecified: 'Unspecified',
+    draftBadge: 'Draft'
+  },
+  filters: {
+    title: 'Title',
+    searchTitle: 'Search by title...',
+    status: 'Status',
+    allStatuses: 'All Statuses',
+    creator: 'Creator',
+    allCreators: 'All Creators',
+    approver: 'Approver',
+    allApprovers: 'All Approvers',
+    search: 'Search'
+  },
+  modal: {
+    title: 'Make Decision',
+    status: 'Status',
+    selectStatus: 'Select a status',
+    observation: 'Observation',
+    cancel: 'Cancel',
+    confirm: 'Confirm'
+  }
+} as const;

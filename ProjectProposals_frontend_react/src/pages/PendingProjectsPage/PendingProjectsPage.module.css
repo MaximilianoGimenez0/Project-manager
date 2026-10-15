@@ -1,0 +1,424 @@
+/* ==========================================
+   VARIABLES
+   ========================================== */
+
+/* ==========================================
+   LAYOUT
+   ========================================== */
+.pageContainer {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    min-height: calc(100vh - var(--navbar-height, 64px));
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.headerContent {
+    flex: 1;
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+}
+
+.toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.dashboardContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.projectsList {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+}
+
+.skeletonGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+}
+
+/* ==========================================
+   ELEMENTS
+   ========================================== */
+.title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-color);
+    margin: 0 0 var(--spacing-xs) 0;
+    letter-spacing: -0.02em;
+}
+
+.headerIcon {
+    color: var(--warning-color);
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.refreshIcon {
+    font-size: 1rem;
+}
+
+.spinning {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Stats Cards */
+.statCard {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    box-shadow: var(--shadow-xs);
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.statCard:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+    border-color: var(--border-hover);
+}
+
+.statCardAlert {
+    border-color: var(--primary-border);
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--surface-color) 100%);
+    box-shadow: 0 0 0 1px var(--primary-border), var(--shadow-xs);
+}
+
+.statIconWrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background-color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    flex-shrink: 0;
+    transition: background-color var(--transition), color var(--transition);
+}
+
+.statIconWrapperAlert {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.statIcon {
+    font-size: 1.35rem;
+}
+
+.statInfo {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.statLabel {
+    font-size: 0.725rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+}
+
+.statValue {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-color);
+    letter-spacing: -0.025em;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Toolbar & Search */
+.searchBox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.searchIcon {
+    position: absolute;
+    left: var(--spacing-md);
+    color: var(--text-light);
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.65rem 2.25rem 0.65rem 2.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.clearSearchBtn {
+    position: absolute;
+    right: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: var(--text-light);
+    font-size: 1.15rem;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition), background-color var(--transition);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.clearSearchBtn:hover {
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+}
+
+.clearSearchBtn:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: -2px;
+}
+
+.resultsCount {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+/* Skeleton Loading State */
+.skeletonCard {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+.skeletonLineShort {
+    width: 30%;
+    height: 20px;
+    border-radius: var(--radius-sm);
+    background-color: var(--secondary-color);
+}
+
+.skeletonLineTitle {
+    width: 70%;
+    height: 24px;
+    border-radius: var(--radius-sm);
+    background-color: var(--secondary-color);
+}
+
+.skeletonLineBody {
+    width: 100%;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    background-color: var(--secondary-color);
+}
+
+.skeletonMetricsBox {
+    width: 100%;
+    height: 60px;
+    border-radius: var(--radius-md);
+    background-color: var(--background-color);
+}
+
+.skeletonFooter {
+    width: 40%;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    background-color: var(--secondary-color);
+    margin-top: auto;
+}
+
+@keyframes skeletonPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.45;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeletonCard {
+        animation: none;
+        opacity: 0.7;
+    }
+}
+
+/* Empty State */
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--spacing-xxl) * 1.5) var(--spacing-xl);
+    background-color: var(--surface-color);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--border-color);
+    text-align: center;
+    gap: var(--spacing-sm);
+}
+
+.emptyIcon {
+    font-size: 2.75rem;
+    color: var(--text-light);
+    margin-bottom: var(--spacing-xs);
+}
+
+.emptyIconSuccess {
+    font-size: 3rem;
+    color: var(--success-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+.emptyTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.emptyDesc {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    max-width: 440px;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Error State */
+.errorState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--spacing-xxl) * 1.25) var(--spacing-xl);
+    background-color: rgba(239, 68, 68, 0.04);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    text-align: center;
+    gap: var(--spacing-sm);
+}
+
+.errorIcon {
+    font-size: 2.5rem;
+    color: var(--error-color);
+}
+
+.errorTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--error-color);
+    margin: 0;
+}
+
+.errorDesc {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    max-width: 440px;
+    margin: 0;
+}
+
+.retryButton {
+    margin-top: var(--spacing-sm);
+}
+
+/* ==========================================
+   RESPONSIVE (Mobile-first)
+   ========================================== */
+@media (min-width: 768px) {
+    .pageContainer {
+        padding: var(--spacing-xl);
+        gap: var(--spacing-xl);
+    }
+
+    .header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .title {
+        font-size: 2.25rem;
+    }
+
+    .statsGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .toolbar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .searchBox {
+        max-width: 480px;
+    }
+
+    .projectsList {
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    }
+
+    .skeletonGrid {
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    }
+}

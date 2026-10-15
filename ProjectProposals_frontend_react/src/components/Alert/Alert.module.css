@@ -1,0 +1,117 @@
+/* ==========================================
+   VARIABLES (Local component variables)
+   ========================================== */
+
+/* ==========================================
+   LAYOUT (Flexbox/Grid positioning)
+   ========================================== */
+.alert {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    background: var(--surface-color);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    min-width: min(300px, calc(100vw - 2rem));
+    max-width: 450px;
+    pointer-events: auto;
+    animation: slideIn 0.25s ease-out forwards;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .alert {
+        animation: none;
+    }
+}
+
+/* ==========================================
+   ELEMENTS (camelCase classes)
+   ========================================== */
+.iconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.message {
+    flex: 1;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-color);
+    line-height: 1.4;
+}
+
+.closeButton {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: var(--radius-md);
+    transition: all var(--transition);
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.closeButton:hover {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+/* Color variations */
+.success {
+    border-color: var(--success-border);
+}
+.success .iconContainer {
+    color: var(--success-contrast);
+}
+
+.error {
+    border-color: var(--error-border);
+}
+.error .iconContainer {
+    color: var(--error-contrast);
+}
+
+.warning {
+    border-color: var(--warning-border);
+}
+.warning .iconContainer {
+    color: var(--warning-contrast);
+}
+
+.info {
+    border-color: var(--info-border);
+}
+.info .iconContainer {
+    color: var(--info-contrast);
+}
+
+/* ==========================================
+   RESPONSIVE (Mobile-first queries)
+   ========================================== */
+@media (max-width: 767px) {
+    .alert {
+        width: 100%;
+        max-width: 100%;
+    }
+}
