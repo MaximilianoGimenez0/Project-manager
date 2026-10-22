@@ -18,17 +18,14 @@ public class AuthEndpointsTests : BaseIntegrationTest
     [Fact]
     public async Task Login_WithValidCredentials_ReturnsOkAndTokens()
     {
-        // Arrange
         var request = new LoginRequest
         {
             Email = "jferreyra@unaj.com",
             Password = "Password123!"
         };
 
-        // Act
         var response = await Client.PostAsJsonAsync("/api/auth/login", request);
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var auth = await response.Content.ReadFromJsonAsync<AuthResponse>();
         auth.Should().NotBeNull();
@@ -37,23 +34,20 @@ public class AuthEndpointsTests : BaseIntegrationTest
         auth.User.Should().NotBeNull();
         auth.User.Email.Should().Be("jferreyra@unaj.com");
         auth.User.Name.Should().Be("José Ferreyra");
-        auth.User.Role.Should().Be(2); // Gerente
+        auth.User.Role.Should().Be(2);
     }
 
     [Fact]
     public async Task Login_WithInvalidPassword_ReturnsUnauthorized()
     {
-        // Arrange
         var request = new LoginRequest
         {
             Email = "jferreyra@unaj.com",
             Password = "WrongPassword999!"
         };
 
-        // Act
         var response = await Client.PostAsJsonAsync("/api/auth/login", request);
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         var error = await response.Content.ReadFromJsonAsync<ApiErrorResponse>();
         error.Should().NotBeNull();
@@ -63,51 +57,42 @@ public class AuthEndpointsTests : BaseIntegrationTest
     [Fact]
     public async Task Login_WithNonExistentEmail_ReturnsUnauthorized()
     {
-        // Arrange
         var request = new LoginRequest
         {
             Email = "nobody_exists@unaj.com",
             Password = "Password123!"
         };
 
-        // Act
         var response = await Client.PostAsJsonAsync("/api/auth/login", request);
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
     public async Task Login_WithEmptyFields_ReturnsBadRequest()
     {
-        // Arrange
         var request = new LoginRequest
         {
             Email = "",
             Password = ""
         };
 
-        // Act
         var response = await Client.PostAsJsonAsync("/api/auth/login", request);
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     [Fact]
     public async Task RefreshToken_WithValidToken_ReturnsRotatedTokens()
     {
-        // Arrange: first login to obtain a valid refresh token
         var (client, initialAuth) = await CreateAuthenticatedClientAsync("jferreyra@unaj.com", "Password123!");
         var refreshRequest = new RefreshTokenRequest
         {
             RefreshToken = initialAuth.RefreshToken
         };
 
-        // Act
         var response = await client.PostAsJsonAsync("/api/auth/refresh-token", refreshRequest);
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var newAuth = await response.Content.ReadFromJsonAsync<AuthResponse>();
         newAuth.Should().NotBeNull();
@@ -119,29 +104,23 @@ public class AuthEndpointsTests : BaseIntegrationTest
     [Fact]
     public async Task RefreshToken_WithInvalidToken_ReturnsUnauthorized()
     {
-        // Arrange
         var request = new RefreshTokenRequest
         {
             RefreshToken = "invalid-non-existent-token-string"
         };
 
-        // Act
         var response = await Client.PostAsJsonAsync("/api/auth/refresh-token", request);
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
     public async Task GetCurrentUser_WhenAuthenticated_ReturnsCurrentUserData()
     {
-        // Arrange
         var (authClient, _) = await CreateAuthenticatedClientAsync("jferreyra@unaj.com", "Password123!");
 
-        // Act
         var response = await authClient.GetAsync("/api/auth/me");
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var user = await response.Content.ReadFromJsonAsync<UserResponse>();
         user.Should().NotBeNull();
@@ -154,27 +133,22 @@ public class AuthEndpointsTests : BaseIntegrationTest
     [Fact]
     public async Task GetCurrentUser_WhenUnauthenticated_ReturnsUnauthorized()
     {
-        // Act: without Authorization header
         var response = await Client.GetAsync("/api/auth/me");
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
     public async Task RevokeToken_WhenAuthenticated_RevokesSuccessfully()
     {
-        // Arrange
         var (authClient, auth) = await CreateAuthenticatedClientAsync("jferreyra@unaj.com", "Password123!");
         var revokeRequest = new RevokeTokenRequest
         {
             RefreshToken = auth.RefreshToken
         };
 
-        // Act
         var response = await authClient.PostAsJsonAsync("/api/auth/revoke-token", revokeRequest);
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         // Attempting to refresh using the revoked token must now fail

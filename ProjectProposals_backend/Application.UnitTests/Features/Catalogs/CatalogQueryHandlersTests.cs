@@ -51,17 +51,14 @@ namespace Application.UnitTests.Features.Catalogs
         [Fact]
         public async Task GetAreasQuery_ReturnsMappedAreas()
         {
-            // Arrange
             _areaRepoMock.Setup(r => r.GetAll()).ReturnsAsync(new List<Area>
             {
                 new Area { Id = 1, Name = "Tecnología" },
                 new Area { Id = 2, Name = "Finanzas" }
             });
 
-            // Act
             var result = await _handler.Handle(new GetAreasQuery(), CancellationToken.None);
 
-            // Assert
             result.Should().HaveCount(2);
             result[0].Name.Should().Be("Tecnología");
             result[1].Name.Should().Be("Finanzas");
@@ -70,16 +67,13 @@ namespace Application.UnitTests.Features.Catalogs
         [Fact]
         public async Task GetProjectTypesQuery_ReturnsMappedTypes()
         {
-            // Arrange
             _typeRepoMock.Setup(r => r.GetAll()).ReturnsAsync(new List<ProjectType>
             {
                 new ProjectType { Id = 1, Name = "Innovación" }
             });
 
-            // Act
             var result = await _handler.Handle(new GetProjectTypesQuery(), CancellationToken.None);
 
-            // Assert
             result.Should().HaveCount(1);
             result[0].Name.Should().Be("Innovación");
         }
@@ -87,17 +81,14 @@ namespace Application.UnitTests.Features.Catalogs
         [Fact]
         public async Task GetApproverRolesQuery_ReturnsMappedRoles()
         {
-            // Arrange
             _roleRepoMock.Setup(r => r.GetAll()).ReturnsAsync(new List<ApproverRole>
             {
                 new ApproverRole { Id = 1, Name = "Líder de Área" },
                 new ApproverRole { Id = 2, Name = "Gerente" }
             });
 
-            // Act
             var result = await _handler.Handle(new GetApproverRolesQuery(), CancellationToken.None);
 
-            // Assert
             result.Should().HaveCount(2);
             result[0].Name.Should().Be("Líder de Área");
         }
@@ -105,17 +96,14 @@ namespace Application.UnitTests.Features.Catalogs
         [Fact]
         public async Task GetApprovalStatusesQuery_ReturnsMappedStatuses()
         {
-            // Arrange
             _statusRepoMock.Setup(r => r.GetAll()).ReturnsAsync(new List<ApprovalStatus>
             {
                 new ApprovalStatus("Pending") { Id = 1 },
                 new ApprovalStatus("Approved") { Id = 2 }
             });
 
-            // Act
             var result = await _handler.Handle(new GetApprovalStatusesQuery(), CancellationToken.None);
 
-            // Assert
             result.Should().HaveCount(2);
             result[0].Name.Should().Be("Pending");
             result[1].Name.Should().Be("Approved");
@@ -124,16 +112,13 @@ namespace Application.UnitTests.Features.Catalogs
         [Fact]
         public async Task GetUsersQuery_ReturnsMappedUsers()
         {
-            // Arrange
             _userRepoMock.Setup(r => r.GetAll()).ReturnsAsync(new List<User>
             {
                 new User { Id = 1, Name = "Ana", Email = "ana@unaj.com", Role = 1 }
             });
 
-            // Act
             var result = await _handler.Handle(new GetUsersQuery(), CancellationToken.None);
 
-            // Assert
             result.Should().HaveCount(1);
             result[0].Name.Should().Be("Ana");
             result[0].Email.Should().Be("ana@unaj.com");

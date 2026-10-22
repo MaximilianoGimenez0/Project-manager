@@ -42,7 +42,6 @@ namespace Application.UnitTests.Mappings
         [Fact]
         public void AutoMapper_Profiles_ShouldMapProjectProposalToProjectResponseCorrectly()
         {
-            // Arrange
             var entity = new ProjectProposal
             {
                 Title = "Título Proyecto",
@@ -53,10 +52,8 @@ namespace Application.UnitTests.Mappings
                 ProjectProposalUser = new User { Name = "José Ferreyra" }
             };
 
-            // Act
             var dto = _mapper.Map<ProjectResponse>(entity);
 
-            // Assert
             dto.Title.Should().Be("Título Proyecto");
             dto.Area.Name.Should().Be("Finanzas");
             dto.Type.Name.Should().Be("Infraestructura");
@@ -67,7 +64,6 @@ namespace Application.UnitTests.Mappings
         [Fact]
         public void AutoMapper_Profiles_ShouldMapApprovalStepToApprovalStepResponseCorrectly()
         {
-            // Arrange
             var step = new ProjectApprovalStep
             {
                 StepOrder = 1,
@@ -77,10 +73,8 @@ namespace Application.UnitTests.Mappings
                 Observations = "Sin observaciones"
             };
 
-            // Act
             var dto = _mapper.Map<ApprovalStepResponse>(step);
 
-            // Assert
             dto.StepOrder.Should().Be(1);
             dto.ApproverRole.Name.Should().Be("Gerente");
             dto.Status.Name.Should().Be("Approved");

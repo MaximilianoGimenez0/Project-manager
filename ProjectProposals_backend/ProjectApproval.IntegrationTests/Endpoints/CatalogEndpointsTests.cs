@@ -16,13 +16,10 @@ public class CatalogEndpointsTests : BaseIntegrationTest
     [Fact]
     public async Task AreaGetAll_WhenAuthenticated_ReturnsAreasList()
     {
-        // Arrange
         var (authClient, _) = await CreateAuthenticatedClientAsync("jferreyra@unaj.com", "Password123!");
 
-        // Act
         var response = await authClient.GetAsync("/api/Area");
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var areas = await response.Content.ReadFromJsonAsync<List<GenericResponse>>();
         areas.Should().NotBeNull();
@@ -33,13 +30,10 @@ public class CatalogEndpointsTests : BaseIntegrationTest
     [Fact]
     public async Task ProjectTypeGetAll_WhenAuthenticated_ReturnsTypesList()
     {
-        // Arrange
         var (authClient, _) = await CreateAuthenticatedClientAsync("jferreyra@unaj.com", "Password123!");
 
-        // Act
         var response = await authClient.GetAsync("/api/ProjectType");
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var types = await response.Content.ReadFromJsonAsync<List<GenericResponse>>();
         types.Should().NotBeNull();
@@ -50,13 +44,10 @@ public class CatalogEndpointsTests : BaseIntegrationTest
     [Fact]
     public async Task RoleGetAll_WhenAuthenticated_ReturnsRolesList()
     {
-        // Arrange
         var (authClient, _) = await CreateAuthenticatedClientAsync("jferreyra@unaj.com", "Password123!");
 
-        // Act
         var response = await authClient.GetAsync("/api/Role");
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var roles = await response.Content.ReadFromJsonAsync<List<GenericResponse>>();
         roles.Should().NotBeNull();
@@ -67,13 +58,10 @@ public class CatalogEndpointsTests : BaseIntegrationTest
     [Fact]
     public async Task StatusGetAll_WhenAuthenticated_ReturnsApprovalStatusesList()
     {
-        // Arrange
         var (authClient, _) = await CreateAuthenticatedClientAsync("jferreyra@unaj.com", "Password123!");
 
-        // Act
         var response = await authClient.GetAsync("/api/ApprovalStatus");
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var statuses = await response.Content.ReadFromJsonAsync<List<GenericResponse>>();
         statuses.Should().NotBeNull();
@@ -84,13 +72,10 @@ public class CatalogEndpointsTests : BaseIntegrationTest
     [Fact]
     public async Task UserGetAll_WhenAuthenticated_ReturnsUsersList()
     {
-        // Arrange
         var (authClient, _) = await CreateAuthenticatedClientAsync("jferreyra@unaj.com", "Password123!");
 
-        // Act
         var response = await authClient.GetAsync("/api/User");
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var users = await response.Content.ReadFromJsonAsync<List<UserResponse>>();
         users.Should().NotBeNull();
@@ -101,10 +86,8 @@ public class CatalogEndpointsTests : BaseIntegrationTest
     [Fact]
     public async Task Catalogs_WhenUnauthenticated_ReturnsUnauthorized()
     {
-        // Act
         var response = await Client.GetAsync("/api/Area");
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 }

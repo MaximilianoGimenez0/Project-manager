@@ -15,7 +15,7 @@ namespace Application.UnitTests.Common
     {
         private readonly Mock<IApprovalRuleRepository> _ruleRepositoryMock;
         private readonly Mock<IApproverRoleRepository> _roleRepositoryMock;
-        private readonly ApprovalStepEngine _sut; // System Under Test
+        private readonly ApprovalStepEngine _sut;
 
         public ApprovalStepEngineTests()
         {
@@ -37,7 +37,6 @@ namespace Application.UnitTests.Common
         [Fact]
         public async Task CalculateStepsAsync_WhenNoRulesExist_ReturnsEmptyList()
         {
-            // Arrange
             _ruleRepositoryMock.Setup(r => r.GetAll()).ReturnsAsync(new List<ApprovalRule>());
 
             var project = new ProjectProposal
@@ -47,17 +46,14 @@ namespace Application.UnitTests.Common
                 Type = 1
             };
 
-            // Act
             var result = await _sut.CalculateStepsAsync(project);
 
-            // Assert
             result.Should().BeEmpty();
         }
 
         [Fact]
         public async Task CalculateStepsAsync_WhenAmountDoesNotMatchRange_ReturnsEmptyList()
         {
-            // Arrange
             var rules = new List<ApprovalRule>
             {
                 new ApprovalRule(10000, 20000, 1, 1) { Id = 1 }
@@ -66,22 +62,19 @@ namespace Application.UnitTests.Common
 
             var project = new ProjectProposal
             {
-                EstimatedAmount = 5000, // Below min
+                EstimatedAmount = 5000,
                 Area = 1,
                 Type = 1
             };
 
-            // Act
             var result = await _sut.CalculateStepsAsync(project);
 
-            // Assert
             result.Should().BeEmpty();
         }
 
         [Fact]
         public async Task CalculateStepsAsync_WhenMatchingRulesExist_GeneratesStepsInAscendingOrderWithPendingStatus()
         {
-            // Arrange
             var rules = new List<ApprovalRule>
             {
                 new ApprovalRule(0, 100000, 1, (int)ApproverRoleEnum.AreaLeader) { Id = 1 },
@@ -97,10 +90,8 @@ namespace Application.UnitTests.Common
                 Type = 1
             };
 
-            // Act
             var result = await _sut.CalculateStepsAsync(project);
 
-            // Assert
             result.Should().HaveCount(3);
             result[0].StepOrder.Should().Be(1);
             result[0].ApproverRoleId.Should().Be((int)ApproverRoleEnum.AreaLeader);
@@ -118,7 +109,6 @@ namespace Application.UnitTests.Common
         [Fact]
         public async Task CalculateStepsAsync_WhenMultipleRulesForSameStep_PrioritizesMostSpecificRuleByAreaAndType()
         {
-            // Arrange
             var genericRule = new ApprovalRule(0, 50000, 1, (int)ApproverRoleEnum.AreaLeader)
             {
                 Id = 1,
@@ -141,10 +131,8 @@ namespace Application.UnitTests.Common
                 Type = 2
             };
 
-            // Act
             var result = await _sut.CalculateStepsAsync(project);
 
-            // Assert
             result.Should().HaveCount(1);
             result[0].StepOrder.Should().Be(1);
             result[0].ApproverRoleId.Should().Be((int)ApproverRoleEnum.TechnicalCommittee);
@@ -153,7 +141,6 @@ namespace Application.UnitTests.Common
         [Fact]
         public async Task CalculateStepsAsync_WhenMultipleMatchingRulesSelectSameRole_DeduplicatesRoleToSingleStep()
         {
-            // Arrange: Two rules for different steps that both select Manager
             var rule1 = new ApprovalRule(0, 20000, 1, (int)ApproverRoleEnum.Manager) { Id = 3, Area = 2, Type = 2 };
             var rule2 = new ApprovalRule(10000, 30000, 2, (int)ApproverRoleEnum.Manager) { Id = 8, Area = 2 };
 
@@ -166,10 +153,8 @@ namespace Application.UnitTests.Common
                 Type = 2
             };
 
-            // Act
             var result = await _sut.CalculateStepsAsync(project);
 
-            // Assert: Manager must appear ONLY ONCE with StepOrder 1
             result.Should().HaveCount(1);
             result[0].StepOrder.Should().Be(1);
             result[0].ApproverRoleId.Should().Be((int)ApproverRoleEnum.Manager);
@@ -178,7 +163,6 @@ namespace Application.UnitTests.Common
         [Fact]
         public async Task CalculateStepsAsync_WhenStepGapsExist_GeneratesConsecutiveStepOrdersWithoutGaps()
         {
-            // Arrange: Rules for Step 1 (Líder) and Step 3 (Director), no rule for Step 2
             var rule1 = new ApprovalRule(0, 100000, 1, (int)ApproverRoleEnum.AreaLeader) { Id = 1 };
             var rule3 = new ApprovalRule(20000, 0, 3, (int)ApproverRoleEnum.Director) { Id = 4 };
 
@@ -191,10 +175,8 @@ namespace Application.UnitTests.Common
                 Type = 3
             };
 
-            // Act
             var result = await _sut.CalculateStepsAsync(project);
 
-            // Assert: Steps must be consecutive 1 and 2, not 1 and 3
             result.Should().HaveCount(2);
             result[0].StepOrder.Should().Be(1);
             result[0].ApproverRoleId.Should().Be((int)ApproverRoleEnum.AreaLeader);
@@ -206,7 +188,6 @@ namespace Application.UnitTests.Common
         [Fact]
         public async Task CalculateStepsAsync_WhenRulesDefineInvertedOrder_SortsByRoleHierarchy()
         {
-            // Arrange: Misconfigured rules where Step 1 is Director and Step 2 is AreaLeader
             var invertedRule1 = new ApprovalRule(0, 100000, 1, (int)ApproverRoleEnum.Director) { Id = 1 };
             var invertedRule2 = new ApprovalRule(0, 100000, 2, (int)ApproverRoleEnum.AreaLeader) { Id = 2 };
 
@@ -219,10 +200,8 @@ namespace Application.UnitTests.Common
                 Type = 1
             };
 
-            // Act
             var result = await _sut.CalculateStepsAsync(project);
 
-            // Assert: Must be ordered by HierarchyLevel (AreaLeader=10 < Director=30)
             result.Should().HaveCount(2);
             result[0].StepOrder.Should().Be(1);
             result[0].ApproverRoleId.Should().Be((int)ApproverRoleEnum.AreaLeader);
@@ -234,7 +213,6 @@ namespace Application.UnitTests.Common
         [Fact]
         public async Task CalculateStepsAsync_WhenRoleRepositoryIsNull_UsesDefaultHierarchies()
         {
-            // Arrange: Using single-argument constructor
             var engineWithoutRoles = new ApprovalStepEngine(_ruleRepositoryMock.Object);
 
             var rule1 = new ApprovalRule(0, 100000, 1, (int)ApproverRoleEnum.Director) { Id = 1 };
@@ -245,10 +223,8 @@ namespace Application.UnitTests.Common
 
             var project = new ProjectProposal { EstimatedAmount = 50000 };
 
-            // Act
             var result = await engineWithoutRoles.CalculateStepsAsync(project);
 
-            // Assert: TechnicalCommittee (15) < Director (30) < Unknown 99 (990)
             result.Should().HaveCount(3);
             result[0].StepOrder.Should().Be(1);
             result[0].ApproverRoleId.Should().Be((int)ApproverRoleEnum.TechnicalCommittee);

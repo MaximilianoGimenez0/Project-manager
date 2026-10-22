@@ -34,7 +34,6 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
                 "Verifica que Docker Desktop (o el daemon de Docker) esté abierto y ejecutándose en el equipo.", ex);
         }
 
-        // Apply migrations to the test database
         using var scope = Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ProjectApprovalDbContext>();
         await dbContext.Database.MigrateAsync();

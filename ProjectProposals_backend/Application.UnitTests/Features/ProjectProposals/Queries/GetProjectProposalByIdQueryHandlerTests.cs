@@ -40,13 +40,10 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
         [Fact]
         public async Task Handle_WithEmptyGuid_ThrowsBadRequestException()
         {
-            // Arrange
             var query = new GetProjectProposalByIdQuery(Guid.Empty);
 
-            // Act
             var act = () => _handler.Handle(query, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<BadRequestException>()
                 .WithMessage("El ID del proyecto no puede estar vacío.");
         }
@@ -54,16 +51,13 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
         [Fact]
         public async Task Handle_WhenProjectNotFound_ThrowsNotFoundException()
         {
-            // Arrange
             var projectId = Guid.NewGuid();
             _repositoryMock.Setup(r => r.GetById(projectId)).ReturnsAsync((ProjectProposal?)null);
 
             var query = new GetProjectProposalByIdQuery(projectId);
 
-            // Act
             var act = () => _handler.Handle(query, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<NotFoundException>()
                 .WithMessage("El proyecto no se encuentra registrado.");
         }
@@ -71,7 +65,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
         [Fact]
         public async Task Handle_WhenProjectExists_ReturnsMappedProjectResponse()
         {
-            // Arrange
             var projectId = Guid.NewGuid();
             var project = new ProjectProposal
             {
@@ -90,10 +83,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
 
             var query = new GetProjectProposalByIdQuery(projectId);
 
-            // Act
             var result = await _handler.Handle(query, CancellationToken.None);
 
-            // Assert
             result.Should().NotBeNull();
             result.Id.Should().Be(projectId);
             result.Title.Should().Be("Proyecto Innovación");

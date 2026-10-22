@@ -9,7 +9,6 @@ namespace Application.UnitTests.Domain
         [Fact]
         public void Constructor_SetsPropertiesCorrectly()
         {
-            // Act
             var rule = new ApprovalRule(10000m, 50000m, 2, 20)
             {
                 Id = 1,
@@ -17,7 +16,6 @@ namespace Application.UnitTests.Domain
                 Type = 4
             };
 
-            // Assert
             rule.MinAmount.Should().Be(10000m);
             rule.MaxAmount.Should().Be(50000m);
             rule.StepOrder.Should().Be(2);

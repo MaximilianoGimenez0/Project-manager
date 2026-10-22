@@ -33,7 +33,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
             _statusRepoMock = new Mock<IApprovalStatusRepository>();
             _typeRepoMock = new Mock<IProjectTypeRepository>();
 
-            // Setup default catalogs
             _areaRepoMock.Setup(r => r.GetAll()).ReturnsAsync(new List<Area>
             {
                 new Area { Id = 1, Name = "Tecnología" },
@@ -64,16 +63,13 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
         [Fact]
         public async Task Handle_WhenApprovalUserDoesNotExist_ThrowsBadRequestException()
         {
-            // Arrange
             _projectRepoMock.Setup(r => r.GetAll()).ReturnsAsync(new List<ProjectProposal>());
             _userRepoMock.Setup(r => r.GetById(99)).ReturnsAsync((User?)null);
 
             var query = new GetFilteredProjectsQuery(Title: null, Status: null, Applicant: null, ApprovalUser: 99);
 
-            // Act
             var act = () => _handler.Handle(query, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<BadRequestException>()
                 .WithMessage("El usuario no existe.");
         }
@@ -81,7 +77,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
         [Fact]
         public async Task Handle_WhenApprovalUserProvided_FiltersProjectsAwaitingUserRole()
         {
-            // Arrange
             var user = new User { Id = 5, Name = "Gerente Test", Role = (int)ApproverRoleEnum.Manager };
             _userRepoMock.Setup(r => r.GetById(5)).ReturnsAsync(user);
 
@@ -106,10 +101,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
 
             var query = new GetFilteredProjectsQuery(Title: null, Status: null, Applicant: null, ApprovalUser: 5);
 
-            // Act
             var result = await _handler.Handle(query, CancellationToken.None);
 
-            // Assert
             result.Should().HaveCount(1);
             result[0].Id.Should().Be(project1Id);
             result[0].Title.Should().Be("Proyecto Alpha");
@@ -121,7 +114,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
         [Fact]
         public async Task Handle_WhenFiltersByTitleStatusAndApplicant_ReturnsMatchingProjects()
         {
-            // Arrange
             var project1 = new ProjectProposal { Id = Guid.NewGuid(), Title = "Sistema Contable", Status = 1, CreateBy = 10, Area = 2, Type = 1 };
             var project2 = new ProjectProposal { Id = Guid.NewGuid(), Title = "Sistema RRHH", Status = 2, CreateBy = 10, Area = 1, Type = 2 };
             var project3 = new ProjectProposal { Id = Guid.NewGuid(), Title = "Migración Cloud", Status = 1, CreateBy = 20, Area = 1, Type = 1 };
@@ -130,10 +122,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
 
             var query = new GetFilteredProjectsQuery(Title: "sistema", Status: 1, Applicant: 10, ApprovalUser: null);
 
-            // Act
             var result = await _handler.Handle(query, CancellationToken.None);
 
-            // Assert
             result.Should().HaveCount(1);
             result[0].Title.Should().Be("Sistema Contable");
             result[0].Area.Should().Be("Finanzas");
@@ -142,7 +132,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
         [Fact]
         public async Task Handle_WhenNoFiltersApplied_ReturnsAllProjectsMapped()
         {
-            // Arrange
             var project1 = new ProjectProposal { Id = Guid.NewGuid(), Title = "P1", Status = 1, Area = 1, Type = 1, EstimatedAmount = 10000, EstimatedDuration = 2 };
             var project2 = new ProjectProposal { Id = Guid.NewGuid(), Title = "P2", Status = 2, Area = 2, Type = 2, EstimatedAmount = 20000, EstimatedDuration = 4 };
 
@@ -150,10 +139,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
 
             var query = new GetFilteredProjectsQuery(Title: null, Status: null, Applicant: null, ApprovalUser: null);
 
-            // Act
             var result = await _handler.Handle(query, CancellationToken.None);
 
-            // Assert
             result.Should().HaveCount(2);
             result[0].Title.Should().Be("P1");
             result[0].Amount.Should().Be(10000);

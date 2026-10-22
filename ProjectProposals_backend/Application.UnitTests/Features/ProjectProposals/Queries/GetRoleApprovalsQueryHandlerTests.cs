@@ -46,13 +46,10 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
         [InlineData(1000)]
         public async Task Handle_WhenRoleOutOfRange_ThrowsBadRequestException(int invalidRole)
         {
-            // Arrange
             var query = new GetRoleApprovalsQuery(invalidRole);
 
-            // Act
             var act = () => _handler.Handle(query, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<BadRequestException>()
                 .WithMessage("El rol no puede ser menor a 0 ni mayor a 999.");
         }
@@ -60,7 +57,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
         [Fact]
         public async Task Handle_WhenMatchingPendingStepsExist_ReturnsMappedProjects()
         {
-            // Arrange
             var project1Id = Guid.NewGuid();
             var project2Id = Guid.NewGuid();
 
@@ -92,10 +88,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Queries
 
             var query = new GetRoleApprovalsQuery((int)ApproverRoleEnum.Manager);
 
-            // Act
             var result = await _handler.Handle(query, CancellationToken.None);
 
-            // Assert
             result.Should().HaveCount(1);
             result[0].Id.Should().Be(project1Id);
             result[0].Title.Should().Be("Proyecto para Gerencia");

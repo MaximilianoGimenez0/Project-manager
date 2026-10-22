@@ -18,17 +18,14 @@ namespace Application.UnitTests.Services
         [Fact]
         public void GenerateAccessToken_WhenSecretKeyMissing_ThrowsInvalidOperationException()
         {
-            // Arrange: Empty configuration
             var inMemorySettings = new Dictionary<string, string?>();
             IConfiguration config = new ConfigurationBuilder().AddInMemoryCollection(inMemorySettings).Build();
             var service = new JwtTokenService(config);
 
             var user = new User { Id = 1, Name = "Test", Email = "test@unaj.com", Role = 1 };
 
-            // Act
             var act = () => service.GenerateAccessToken(user);
 
-            // Assert
             act.Should().Throw<InvalidOperationException>()
                 .WithMessage("JwtSettings:SecretKey is not configured.");
         }
@@ -36,7 +33,6 @@ namespace Application.UnitTests.Services
         [Fact]
         public void GenerateAccessToken_WithValidConfigAndRole_GeneratesTokenWithCorrectClaims()
         {
-            // Arrange
             var inMemorySettings = new Dictionary<string, string?>
             {
                 { "JwtSettings:SecretKey", TestSecret },
@@ -56,10 +52,8 @@ namespace Application.UnitTests.Services
                 UserRole = new ApproverRole { Id = 20, Name = "Gerente" }
             };
 
-            // Act
             var tokenString = service.GenerateAccessToken(user);
 
-            // Assert
             tokenString.Should().NotBeNullOrWhiteSpace();
 
             var handler = new JwtSecurityTokenHandler();
@@ -79,7 +73,6 @@ namespace Application.UnitTests.Services
         [Fact]
         public void GenerateAccessToken_WhenUserRoleEntityIsNull_UsesNumericRoleString()
         {
-            // Arrange
             var inMemorySettings = new Dictionary<string, string?>
             {
                 { "JwtSettings:SecretKey", TestSecret }
@@ -93,13 +86,11 @@ namespace Application.UnitTests.Services
                 Name = "Usuario Sin Entidad Rol",
                 Email = "user@unaj.com",
                 Role = 15,
-                UserRole = null // Sin entidad asociada
+                UserRole = null
             };
 
-            // Act
             var tokenString = service.GenerateAccessToken(user);
 
-            // Assert
             var handler = new JwtSecurityTokenHandler();
             var jwtToken = handler.ReadJwtToken(tokenString);
 
@@ -109,7 +100,6 @@ namespace Application.UnitTests.Services
         [Fact]
         public void GenerateRefreshToken_GeneratesSecureUrlSafeTokenWithConfiguredExpiration()
         {
-            // Arrange
             var inMemorySettings = new Dictionary<string, string?>
             {
                 { "JwtSettings:RefreshTokenExpirationDays", "14" }
@@ -117,10 +107,8 @@ namespace Application.UnitTests.Services
             IConfiguration config = new ConfigurationBuilder().AddInMemoryCollection(inMemorySettings).Build();
             var service = new JwtTokenService(config);
 
-            // Act
             var refreshToken = service.GenerateRefreshToken("192.168.1.100");
 
-            // Assert
             refreshToken.Should().NotBeNull();
             refreshToken.Token.Should().NotBeNullOrWhiteSpace();
             refreshToken.Token.Should().NotContain("+");

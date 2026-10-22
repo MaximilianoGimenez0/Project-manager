@@ -43,13 +43,10 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
         [Fact]
         public async Task Handle_WhenIdIsEmpty_ThrowsBadRequestException()
         {
-            // Arrange
             var command = new UpdateProjectProposalCommand(Guid.Empty, new ProjectUpdateRequest());
 
-            // Act
             var act = () => _handler.Handle(command, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<BadRequestException>()
                 .WithMessage("El ID del proyecto no puede estar vacío.");
         }
@@ -57,7 +54,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
         [Fact]
         public async Task Handle_WhenProjectNotFound_ThrowsNotFoundException()
         {
-            // Arrange
             var projectId = Guid.NewGuid();
             _projectRepositoryMock.Setup(r => r.GetById(projectId)).ReturnsAsync((ProjectProposal?)null);
 
@@ -66,10 +62,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
                 Title = "Nuevo Titulo"
             });
 
-            // Act
             var act = () => _handler.Handle(command, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<NotFoundException>()
                 .WithMessage("El proyecto no se encuentra.");
         }
@@ -77,7 +71,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
         [Fact]
         public async Task Handle_WhenNewTitleAlreadyExistsOnAnotherProject_ThrowsBadRequestException()
         {
-            // Arrange
             var projectId = Guid.NewGuid();
             var anotherProjectId = Guid.NewGuid();
 
@@ -100,10 +93,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
                 Title = "Titulo Duplicado"
             });
 
-            // Act
             var act = () => _handler.Handle(command, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<BadRequestException>()
                 .WithMessage("Ya existe un proyecto con el mismo título.");
         }
@@ -111,27 +102,24 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
         [Fact]
         public async Task Handle_WhenProjectIsNotInObservedStatus_ThrowsBadRequestException()
         {
-            // Arrange
             var projectId = Guid.NewGuid();
             var existingProject = new ProjectProposal
             {
                 Id = projectId,
                 Title = "Proyecto en Revision",
-                Status = (int)ApprovalStatusEnum.Pending // No está observado
+                Status = (int)ApprovalStatusEnum.Pending
             };
 
             _projectRepositoryMock.Setup(r => r.GetById(projectId)).ReturnsAsync(existingProject);
 
             var command = new UpdateProjectProposalCommand(projectId, new ProjectUpdateRequest
             {
-                Title = "Proyecto en Revision", // Mismo titulo para no disparar GetAll
+                Title = "Proyecto en Revision",
                 Description = "Nueva descripcion"
             });
 
-            // Act
             var act = () => _handler.Handle(command, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<BadRequestException>()
                 .WithMessage("El proyecto se encuentra en un estado que no permite modificaciones.");
         }
@@ -139,7 +127,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
         [Fact]
         public async Task Handle_WhenProjectIsObservedAndDataIsValid_UpdatesSuccessfully()
         {
-            // Arrange
             var projectId = Guid.NewGuid();
             var project = new ProjectProposal
             {
@@ -165,10 +152,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
                 Duration = 6
             });
 
-            // Act
             var result = await _handler.Handle(command, CancellationToken.None);
 
-            // Assert
             result.Should().NotBeNull();
             project.Title.Should().Be("Proyecto Modificado");
             project.Description.Should().Be("Nueva Descripcion");

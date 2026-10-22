@@ -58,7 +58,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
         [Fact]
         public async Task Handle_WithValidRequest_CreatesProposalAndReturnsProjectResponse()
         {
-            // Arrange
             var request = new ProjectProposalCreateRequest
             {
                 Title = "Proyecto Test",
@@ -114,10 +113,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
 
             var command = new CreateProjectProposalCommand(request);
 
-            // Act
             var result = await _handler.Handle(command, CancellationToken.None);
 
-            // Assert
             result.Should().NotBeNull();
             result.Title.Should().Be("Proyecto Test");
             result.Status.Name.Should().Be("Pending");
@@ -134,7 +131,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
         [Fact]
         public async Task Handle_WhenAreaDoesNotExist_ThrowsBadRequestException()
         {
-            // Arrange
             var request = new ProjectProposalCreateRequest
             {
                 Title = "Proyecto Válido",
@@ -150,10 +146,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
 
             var command = new CreateProjectProposalCommand(request);
 
-            // Act
             var act = () => _handler.Handle(command, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<BadRequestException>()
                 .WithMessage("El área ingresada no existe.");
         }
@@ -161,7 +155,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
         [Fact]
         public async Task Handle_WhenDuplicateTitleExists_ThrowsBadRequestException()
         {
-            // Arrange
             var request = new ProjectProposalCreateRequest
             {
                 Title = "Proyecto Duplicado",
@@ -183,10 +176,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
 
             var command = new CreateProjectProposalCommand(request);
 
-            // Act
             var act = () => _handler.Handle(command, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<BadRequestException>()
                 .WithMessage("Ya existe un proyecto con el mismo título.");
         }
@@ -194,7 +185,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
         [Fact]
         public async Task Handle_WhenNoApprovalStepsGenerated_ThrowsBadRequestException()
         {
-            // Arrange
             var request = new ProjectProposalCreateRequest
             {
                 Title = "Proyecto Sin Reglas",
@@ -215,10 +205,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
 
             var command = new CreateProjectProposalCommand(request);
 
-            // Act
             var act = () => _handler.Handle(command, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<BadRequestException>()
                 .WithMessage("No se encontraron reglas de aprobación aplicables para los parámetros del proyecto.");
         }
@@ -234,7 +222,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
         public async Task Handle_WhenRequiredFieldIsMissing_ThrowsBadRequestException(
             string? title, string? desc, double? amount, int? duration, int? area, int? type, int? user)
         {
-            // Arrange
             var request = new ProjectProposalCreateRequest
             {
                 Title = title,
@@ -247,10 +234,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
             };
             var command = new CreateProjectProposalCommand(request);
 
-            // Act
             var act = () => _handler.Handle(command, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<BadRequestException>()
                 .WithMessage("Todos los campos obligatorios deben completarse.");
         }
@@ -258,7 +243,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
         [Fact]
         public async Task Handle_WhenTypeDoesNotExist_ThrowsBadRequestException()
         {
-            // Arrange
             var request = new ProjectProposalCreateRequest
             {
                 Title = "Proyecto Válido",
@@ -275,10 +259,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
 
             var command = new CreateProjectProposalCommand(request);
 
-            // Act
             var act = () => _handler.Handle(command, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<BadRequestException>()
                 .WithMessage("El tipo de proyecto ingresado no existe.");
         }
@@ -286,7 +268,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
         [Fact]
         public async Task Handle_WhenUserDoesNotExist_ThrowsBadRequestException()
         {
-            // Arrange
             var request = new ProjectProposalCreateRequest
             {
                 Title = "Proyecto Válido",
@@ -304,10 +285,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
 
             var command = new CreateProjectProposalCommand(request);
 
-            // Act
             var act = () => _handler.Handle(command, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<BadRequestException>()
                 .WithMessage("El usuario creador ingresado no existe.");
         }
@@ -315,7 +294,6 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
         [Fact]
         public async Task Handle_WhenCreatedEntityCannotBeRetrieved_ThrowsBadRequestException()
         {
-            // Arrange
             var request = new ProjectProposalCreateRequest
             {
                 Title = "Proyecto Recuperación Fallida",
@@ -338,10 +316,8 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
 
             var command = new CreateProjectProposalCommand(request);
 
-            // Act
             var act = () => _handler.Handle(command, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<BadRequestException>()
                 .WithMessage("Error al recuperar la propuesta creada.");
         }
