@@ -1,6 +1,4 @@
-# ==============================================================================
-# Alternativa: Ejecución directa con "docker run" en PowerShell (sin Compose)
-# ==============================================================================
+# Direct execution with "docker run" in PowerShell (standalone alternative to Compose)
 
 docker run -d `
   --name postgres-dev `

@@ -1,12 +1,4 @@
-# ==============================================================================
-# Orquestación de Docker Compose para Project Proposals Backend & PostgreSQL 18
-# Permite ejecutar todo el proyecto desde la raíz del repositorio
-# ==============================================================================
-
 services:
-  # ============================================================================
-  # Servicio 1: Base de Datos PostgreSQL 18 (Alpine)
-  # ============================================================================
   postgres:
     image: postgres-custom:18-alpine
     build:
@@ -17,13 +9,13 @@ services:
     container_name: postgres-dev
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-maxxi}                     # Superusuario administrador
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-MiClaveLocal123}       # Contraseña del superusuario
-      POSTGRES_DB: ${POSTGRES_DB:-projectapproval}             # Nombre de la base de datos inicial
-      PGDATA: /var/lib/postgresql/data/pgdata                  # Subcarpeta aislada de datos
-      TZ: ${TZ:-UTC}                                          # Zona horaria UTC
+      POSTGRES_USER: ${POSTGRES_USER:-maxxi}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-MiClaveLocal123}
+      POSTGRES_DB: ${POSTGRES_DB:-projectapproval}
+      PGDATA: /var/lib/postgresql/data/pgdata
+      TZ: ${TZ:-UTC}
     ports:
-      - "${DB_PORT_BINDING:-127.0.0.1:5532}:5432"             # 127.0.0.1 protege el puerto de escaneos públicos
+      - "${DB_PORT_BINDING:-127.0.0.1:5532}:5432" # 127.0.0.1 prevents public port exposure
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./Docker/init-scripts:/docker-entrypoint-initdb.d:ro
@@ -36,9 +28,6 @@ services:
     networks:
       - app-network
 
-  # ============================================================================
-  # Servicio 2: Backend Web API (.NET 8 Clean Architecture)
-  # ============================================================================
   api:
     image: project-proposals-api:latest
     build:
@@ -48,11 +37,10 @@ services:
     restart: unless-stopped
     depends_on:
       postgres:
-        condition: service_healthy             # Espera a que PostgreSQL esté 100% listo y saludable
+        condition: service_healthy
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
       ASPNETCORE_HTTP_PORTS: 8080
-      # Conexión a PostgreSQL apuntando al servicio 'postgres' por el puerto interno 5432
       ConnectionStrings__LocalProjectConnection: "Host=postgres;Port=5432;Database=${POSTGRES_DB:-projectapproval};Username=${POSTGRES_USER:-maxxi};Password=${POSTGRES_PASSWORD:-MiClaveLocal123};Include Error Detail=${INCLUDE_ERROR_DETAIL:-true};Trust Server Certificate=true;"
       JwtSettings__SecretKey: "${JWT_SECRET_KEY:-SuperSecretJwtKeyForProjectProposals2026SecureAuthentication!}"
       JwtSettings__Issuer: "${JWT_ISSUER:-ProjectProposalsApi}"
@@ -61,20 +49,14 @@ services:
       JwtSettings__RefreshTokenExpirationDays: ${JWT_REFRESH_EXPIRATION_DAYS:-7}
       EnableSwagger: "${ENABLE_SWAGGER:-true}"
     ports:
-      - "${API_PORT_BINDING:-127.0.0.1:8080}:8080"            # Por defecto expuesto localmente al Reverse Proxy (Nginx/Caddy)
+      - "${API_PORT_BINDING:-127.0.0.1:8080}:8080" # Loopback binding for reverse proxy integration
     networks:
       - app-network
 
-# ==============================================================================
-# Volúmenes Persistentes
-# ==============================================================================
 volumes:
   postgres_data:
     name: postgres_data
 
-# ==============================================================================
-# Red Interna Bridge
-# ==============================================================================
 networks:
   app-network:
     name: projectproposals-network
