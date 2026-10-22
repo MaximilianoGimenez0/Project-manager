@@ -57,7 +57,6 @@ export async function apiClient<T>(
         ...(options?.headers as Record<string, string> | undefined),
     };
 
-    // Attach Bearer token if present and not explicitly provided
     const token = getAccessToken();
     if (token && !headers["Authorization"]) {
         headers["Authorization"] = `Bearer ${token}`;
@@ -68,7 +67,6 @@ export async function apiClient<T>(
         headers,
     });
 
-    // Check for 401 Unauthorized for token renewal
     const isAuthEndpoint =
         cleanEndpoint.includes("/auth/login") ||
         cleanEndpoint.includes("/auth/refresh-token");
@@ -83,7 +81,6 @@ export async function apiClient<T>(
         const newAccessToken = await refreshPromise;
 
         if (newAccessToken) {
-            // Retry the original request with the renewed access token
             return apiClient<T>(cleanEndpoint, {
                 ...options,
                 _retry: true,
@@ -94,7 +91,6 @@ export async function apiClient<T>(
             });
         }
 
-        // Refresh failed: session is expired or revoked
         clearAuthSession();
         throw new ApiError("Session expired. Please log in again.", 401);
     }

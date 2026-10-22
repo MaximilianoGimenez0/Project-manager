@@ -11,7 +11,7 @@ function getInitialTheme(): Theme {
       return savedTheme;
     }
   } catch {
-    // localStorage might be unavailable
+    // Storage access failure ignored; fall back to system preference
   }
 
   if (typeof window !== "undefined" && window.matchMedia) {
@@ -29,7 +29,7 @@ export function useTheme() {
     try {
       localStorage.setItem(THEME_STORAGE_KEY, newTheme);
     } catch {
-      // Ignore write errors
+      // Storage access failure ignored
     }
   }, []);
 
@@ -46,14 +46,13 @@ export function useTheme() {
     });
   }, [applyTheme]);
 
-  // Synchronize on mount and listen to system preference changes
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
 
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     function handleSystemChange(event: MediaQueryListEvent) {
       const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-      // Only track system changes if user hasn't manually set a preference
+      // Follow system color scheme changes only when no manual preference is stored
       if (!savedTheme) {
         const systemTheme: Theme = event.matches ? "dark" : "light";
         setThemeState(systemTheme);

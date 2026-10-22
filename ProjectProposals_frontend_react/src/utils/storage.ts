@@ -14,7 +14,7 @@ export function setStoredItem<T>(key: string, value: T): void {
     try {
         sessionStorage.setItem(key, JSON.stringify(value));
     } catch {
-        // Storage might be full or disabled in private browsing
+        // Storage access failure ignored
     }
 }
 
@@ -22,6 +22,6 @@ export function removeStoredItem(key: string): void {
     try {
         sessionStorage.removeItem(key);
     } catch {
-        // Safe ignore
+        // Storage access failure ignored
     }
 }

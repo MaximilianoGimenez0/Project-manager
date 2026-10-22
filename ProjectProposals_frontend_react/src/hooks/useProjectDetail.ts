@@ -39,23 +39,19 @@ export function useProjectDetail(projectId: string | undefined) {
         void fetchProject();
     }, [fetchProject]);
 
-    // Sorted steps by stepOrder
     const steps: ApprovalStep[] = project?.steps
         ? [...project.steps].sort((a, b) => a.stepOrder - b.stepOrder)
         : [];
 
-    // Find the current pending step waiting for evaluation
     const nextPendingStep: ApprovalStep | null =
         steps.find((step) => step.status?.id === STATUS_IDS.PENDING) ?? null;
 
     const nextApproverRole: Role | null = nextPendingStep?.approverRole ?? null;
 
-    // Check if workflow is finalized (Approved or Rejected)
     const isWorkflowCompleted: boolean =
         project?.status?.id === STATUS_IDS.APPROVED ||
         project?.status?.id === STATUS_IDS.REJECTED;
 
-    // Determine if the logged-in user has the role required to decide on this pending step
     const canCurrentUserDecide: boolean = Boolean(
         currentUser?.role?.id &&
         nextPendingStep?.approverRole?.id &&

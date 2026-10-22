@@ -31,7 +31,6 @@ export function getStatusBadgeVariant(status?: number | string | null): BadgeVar
 
     const trimmed = String(status).trim().toLowerCase();
 
-    // Check if string is a numeric string (e.g. "2")
     const numeric = Number(trimmed);
     if (!isNaN(numeric) && trimmed !== "") {
         return getStatusBadgeVariant(numeric);

@@ -6,7 +6,7 @@ export class ApiError extends Error {
         super(message);
         this.status = status;
 
-        // Necesario para que instanceof funcione correctamente
+        // Restore prototype chain broken when extending built-in Error in ES5 targets
         Object.setPrototypeOf(this, ApiError.prototype);
     }
 }

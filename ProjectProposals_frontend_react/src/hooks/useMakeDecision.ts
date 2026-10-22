@@ -29,7 +29,7 @@ export function useMakeDecision({ stepId, onSubmit }: UseMakeDecisionProps) {
                     setStatuses(statusesData);
                 }
             } catch {
-                // Handled gracefully
+                // Failures handled by UI fallback
             }
         }
         void loadData();

@@ -47,7 +47,7 @@ export async function logoutAsync(): Promise<void> {
         try {
             await revokeTokenAsync(refreshToken);
         } catch {
-            // Safe fallback: proceed with local session clearing even if revocation call fails
+            // Clear local session even if server-side token revocation fails
         }
     }
     clearAuthSession();

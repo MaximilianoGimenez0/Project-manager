@@ -58,7 +58,7 @@ export function useProjectForm({ onSubmit, onFormChange }: UseProjectFormProps) 
                     setTypes(typesData);
                 }
             } catch {
-                // Handled in services
+                // Failures fall back to empty catalogs
             }
         }
         void loadData();

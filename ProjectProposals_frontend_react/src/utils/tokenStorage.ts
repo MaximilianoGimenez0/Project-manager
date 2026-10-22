@@ -26,7 +26,7 @@ export function setTokens(accessToken: string, refreshToken: string): void {
         localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
         localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
     } catch {
-        // Storage might be unavailable
+        // Storage access failure ignored
     }
 }
 
@@ -35,7 +35,7 @@ export function clearTokens(): void {
         localStorage.removeItem(ACCESS_TOKEN_KEY);
         localStorage.removeItem(REFRESH_TOKEN_KEY);
     } catch {
-        // Safe ignore
+        // Storage access failure ignored
     }
 }
 
@@ -57,7 +57,7 @@ export function setStoredUser(user: User): void {
         localStorage.setItem(CURRENT_USER_KEY, serialized);
         sessionStorage.setItem(CURRENT_USER_KEY, serialized);
     } catch {
-        // Safe ignore
+        // Storage access failure ignored
     }
 }
 
@@ -67,7 +67,7 @@ export function clearAuthSession(): void {
         localStorage.removeItem(CURRENT_USER_KEY);
         sessionStorage.removeItem(CURRENT_USER_KEY);
     } catch {
-        // Safe ignore
+        // Storage access failure ignored
     }
     window.dispatchEvent(new Event(USER_CHANGED_EVENT));
 }
