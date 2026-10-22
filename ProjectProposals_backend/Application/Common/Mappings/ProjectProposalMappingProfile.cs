@@ -36,9 +36,23 @@ namespace Application.Common.Mappings
             CreateMap<ProjectProposalCreateRequest, ProjectProposalDto>()
                 .ForMember(dest => dest.EstimatedAmount, opt => opt.MapFrom(src => src.Amount))
                 .ForMember(dest => dest.EstimatedDuration, opt => opt.MapFrom(src => src.Duration))
-                .ForMember(dest => dest.CreateBy, opt => opt.MapFrom(src => src.User));
+                .ForMember(dest => dest.CreateBy, opt => opt.MapFrom(src => src.User))
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.CreateAt, opt => opt.Ignore())
+                .ForMember(dest => dest.Status, opt => opt.Ignore())
+                .ForMember(dest => dest.Message, opt => opt.Ignore())
+                .ForMember(dest => dest.Result, opt => opt.Ignore());
 
-            CreateMap<ProjectProposal, ProjectProposalDto>().ReverseMap();
+            CreateMap<ProjectProposal, ProjectProposalDto>()
+                .ForMember(dest => dest.Message, opt => opt.Ignore())
+                .ForMember(dest => dest.Result, opt => opt.Ignore());
+
+            CreateMap<ProjectProposalDto, ProjectProposal>()
+                .ForMember(dest => dest.ProjectProposalArea, opt => opt.Ignore())
+                .ForMember(dest => dest.ProjectProposalType, opt => opt.Ignore())
+                .ForMember(dest => dest.ProjectProposalApprovalStatus, opt => opt.Ignore())
+                .ForMember(dest => dest.ProjectProposalUser, opt => opt.Ignore())
+                .ForMember(dest => dest.Steps, opt => opt.Ignore());
         }
     }
 }

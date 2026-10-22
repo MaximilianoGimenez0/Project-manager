@@ -24,7 +24,10 @@ namespace Application.Common.Mappings
                         : null)));
 
             CreateMap<User, UserDto>();
-            CreateMap<UserDto, User>();
+            CreateMap<UserDto, User>()
+                .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
+                .ForMember(dest => dest.UserRole, opt => opt.Ignore())
+                .ForMember(dest => dest.RefreshTokens, opt => opt.Ignore());
         }
     }
 }
