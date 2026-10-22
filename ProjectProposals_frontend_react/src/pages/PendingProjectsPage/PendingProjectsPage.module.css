@@ -1,10 +1,4 @@
-/* ==========================================
-   VARIABLES
-   ========================================== */
 
-/* ==========================================
-   LAYOUT
-   ========================================== */
 .pageContainer {
     max-width: var(--container-max-width);
     margin: 0 auto;
@@ -61,9 +55,6 @@
     gap: var(--spacing-lg);
 }
 
-/* ==========================================
-   ELEMENTS
-   ========================================== */
 .title {
     display: flex;
     align-items: center;
@@ -100,7 +91,6 @@
     }
 }
 
-/* Stats Cards */
 .statCard {
     background-color: var(--surface-color);
     border: 1px solid var(--border-color);
@@ -169,7 +159,6 @@
     font-variant-numeric: tabular-nums;
 }
 
-/* Toolbar & Search */
 .searchBox {
     position: relative;
     display: flex;
@@ -236,7 +225,6 @@
     color: var(--text-light);
 }
 
-/* Skeleton Loading State */
 .skeletonCard {
     background-color: var(--surface-color);
     border: 1px solid var(--border-color);
@@ -303,7 +291,6 @@
     }
 }
 
-/* Empty State */
 .emptyState {
     display: flex;
     flex-direction: column;
@@ -344,7 +331,6 @@
     line-height: 1.5;
 }
 
-/* Error State */
 .errorState {
     display: flex;
     flex-direction: column;
@@ -381,9 +367,6 @@
     margin-top: var(--spacing-sm);
 }
 
-/* ==========================================
-   RESPONSIVE (Mobile-first)
-   ========================================== */
 @media (min-width: 768px) {
     .pageContainer {
         padding: var(--spacing-xl);

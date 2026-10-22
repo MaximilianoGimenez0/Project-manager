@@ -1,128 +1,114 @@
 :root,
 [data-theme="light"] {
-  /* ==========================================
-     COLORS: Executive B2B Governance Palette
-     ========================================== */
-  --primary-color: #2563eb;      /* Blue 600 - Authoritative, accessible brand */
-  --primary-hover: #1d4ed8;      /* Blue 700 */
-  --primary-light: #eff6ff;      /* Blue 50 */
-  --primary-border: #bfdbfe;     /* Blue 200 */
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #eff6ff;
+  --primary-border: #bfdbfe;
   
-  --secondary-color: #f1f5f9;    /* Slate 100 */
-  --secondary-hover: #e2e8f0;    /* Slate 200 */
-  --background-color: #f8fafc;   /* Slate 50 - Crisp executive canvas */
-  --surface-color: #ffffff;      /* Pure surface */
+  --secondary-color: #f1f5f9;
+  --secondary-hover: #e2e8f0;
+  --background-color: #f8fafc;
+  --surface-color: #ffffff;
   
-  --border-color: #e2e8f0;       /* Slate 200 - Clean structural border */
-  --border-hover: #cbd5e1;       /* Slate 300 */
-  --border-strong: #94a3b8;      /* Slate 400 */
+  --border-color: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --border-strong: #94a3b8;
   
-  --text-color: #0f172a;         /* Slate 900 - Deep, rich ink */
-  --text-muted: #334155;         /* Slate 700 - High legibility reading text */
-  --text-light: #64748b;         /* Slate 500 - Secondary metadata */
+  --text-color: #0f172a;
+  --text-muted: #334155;
+  --text-light: #64748b;
   
-  /* Semantic Status Palette (WCAG AA Compliant) */
-  --success-color: #059669;      /* Emerald 600 */
-  --success-hover: #047857;      /* Emerald 700 */
-  --success-contrast: #047857;   /* Emerald 700 - WCAG AA compliant on success-light */
-  --success-light: #ecfdf5;      /* Emerald 50 */
-  --success-border: #a7f3d0;     /* Emerald 200 */
+  --success-color: #059669;
+  --success-hover: #047857;
+  --success-contrast: #047857; /* WCAG AA compliant on success-light */
+  --success-light: #ecfdf5;
+  --success-border: #a7f3d0;
   
-  --warning-color: #d97706;      /* Amber 600 */
-  --warning-hover: #b45309;      /* Amber 700 */
-  --warning-contrast: #92400e;   /* Amber 800 - WCAG AA compliant on warning-light */
-  --warning-light: #fffbeb;      /* Amber 50 */
-  --warning-border: #fde68a;     /* Amber 200 */
+  --warning-color: #d97706;
+  --warning-hover: #b45309;
+  --warning-contrast: #92400e; /* WCAG AA compliant on warning-light */
+  --warning-light: #fffbeb;
+  --warning-border: #fde68a;
   
-  --error-color: #dc2626;        /* Red 600 */
-  --error-hover: #b91c1c;        /* Red 700 */
-  --error-contrast: #b91c1c;     /* Red 700 - WCAG AA compliant on error-light */
-  --error-light: #fef2f2;        /* Red 50 */
-  --error-border: #fecaca;       /* Red 200 */
+  --error-color: #dc2626;
+  --error-hover: #b91c1c;
+  --error-contrast: #b91c1c; /* WCAG AA compliant on error-light */
+  --error-light: #fef2f2;
+  --error-border: #fecaca;
   
-  --info-color: #0284c7;         /* Sky 600 */
-  --info-hover: #0369a1;         /* Sky 700 */
-  --info-contrast: #0369a1;      /* Sky 700 - WCAG AA compliant on info-light */
-  --info-light: #f0f9ff;         /* Sky 50 */
-  --info-border: #bae6fd;        /* Sky 200 */
+  --info-color: #0284c7;
+  --info-hover: #0369a1;
+  --info-contrast: #0369a1; /* WCAG AA compliant on info-light */
+  --info-light: #f0f9ff;
+  --info-border: #bae6fd;
 
-  /* ==========================================
-     SPACING & LAYOUT
-     ========================================== */
-  --spacing-xs: 0.25rem;  /* 4px */
-  --spacing-sm: 0.5rem;   /* 8px */
-  --spacing-md: 1rem;     /* 16px */
-  --spacing-lg: 1.5rem;   /* 24px */
-  --spacing-xl: 2rem;     /* 32px */
-  --spacing-xxl: 3rem;    /* 48px */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
 
-  /* Border Radius */
-  --radius-xs: 0.25rem;   /* 4px */
-  --radius-sm: 0.375rem;  /* 6px */
-  --radius-md: 0.5rem;    /* 8px */
-  --radius-lg: 0.75rem;   /* 12px */
-  --radius-xl: 1rem;      /* 16px */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
   --radius-full: 9999px;
 
-  /* Layered Shadows (Soft natural ambient occlusion) */
   --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
   --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
   --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
   --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
   --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
 
-  /* Transitions */
   --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   --transition: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   
-  /* Layout Dimensions */
   --container-max-width: 1200px;
   --navbar-height: 64px;
 }
 
-/* ==========================================
-   DARK THEME: Executive B2B Dark Palette
-   ========================================== */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --primary-color: #3b82f6;      /* Blue 500 */
-    --primary-hover: #60a5fa;      /* Blue 400 */
+    --primary-color: #3b82f6;
+    --primary-hover: #60a5fa;
     --primary-light: rgba(59, 130, 246, 0.15);
     --primary-border: rgba(59, 130, 246, 0.35);
     
-    --secondary-color: #1e293b;    /* Slate 800 */
-    --secondary-hover: #334155;    /* Slate 700 */
-    --background-color: #0b0f19;   /* Slate 950 - Deep executive canvas */
-    --surface-color: #111827;      /* Slate 900 - Dark surface */
+    --secondary-color: #1e293b;
+    --secondary-hover: #334155;
+    --background-color: #0b0f19;
+    --surface-color: #111827;
     
-    --border-color: #1f2937;       /* Slate 800 */
-    --border-hover: #374151;       /* Slate 700 */
-    --border-strong: #4b5563;      /* Slate 600 */
+    --border-color: #1f2937;
+    --border-hover: #374151;
+    --border-strong: #4b5563;
     
-    --text-color: #f8fafc;         /* Slate 50 - Crisp light ink */
-    --text-muted: #cbd5e1;         /* Slate 300 - High legibility */
-    --text-light: #94a3b8;         /* Slate 400 */
+    --text-color: #f8fafc;
+    --text-muted: #cbd5e1;
+    --text-light: #94a3b8;
     
-    --success-color: #10b981;      /* Emerald 500 */
+    --success-color: #10b981;
     --success-hover: #34d399;
     --success-light: rgba(16, 185, 129, 0.15);
     --success-border: rgba(16, 185, 129, 0.35);
     --success-contrast: #34d399;
     
-    --warning-color: #f59e0b;      /* Amber 500 */
+    --warning-color: #f59e0b;
     --warning-hover: #fbbf24;
     --warning-light: rgba(245, 158, 11, 0.15);
     --warning-border: rgba(245, 158, 11, 0.35);
     --warning-contrast: #fbbf24;
     
-    --error-color: #ef4444;        /* Red 500 */
+    --error-color: #ef4444;
     --error-hover: #f87171;
     --error-light: rgba(239, 68, 68, 0.15);
     --error-border: rgba(239, 68, 68, 0.35);
     --error-contrast: #f87171;
     
-    --info-color: #38bdf8;         /* Sky 400 */
+    --info-color: #38bdf8;
     --info-hover: #7dd3fc;
     --info-light: rgba(56, 189, 248, 0.15);
     --info-border: rgba(56, 189, 248, 0.35);
@@ -136,7 +122,6 @@
   }
 }
 
-/* Explicit data-theme="dark" attribute support */
 [data-theme="dark"] {
   --primary-color: #3b82f6;
   --primary-hover: #60a5fa;
@@ -179,7 +164,6 @@
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
 }
 
-/* Global Reset & Base Styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -201,7 +185,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Browser Surfaces Theming */
 ::selection {
   background-color: #dbeafe;
   color: #1e40af;
@@ -225,7 +208,6 @@ body {
   background: #94a3b8;
 }
 
-/* Typography Base */
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.25;
   color: var(--text-color);
@@ -249,7 +231,6 @@ a:hover {
   color: var(--primary-hover);
 }
 
-/* Interactive elements reset */
 button {
   cursor: pointer;
   border: none;
