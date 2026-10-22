@@ -41,6 +41,13 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        builder.UseSetting("ConnectionStrings:LocalProjectConnection", _dbContainer.GetConnectionString());
+        builder.UseSetting("JwtSettings:SecretKey", "SuperSecretJwtKeyForIntegrationTestsAtLeast32BytesLong!");
+        builder.UseSetting("JwtSettings:Issuer", "ProjectProposalsApi");
+        builder.UseSetting("JwtSettings:Audience", "ProjectProposalsClient");
+        builder.UseSetting("JwtSettings:AccessTokenExpirationMinutes", "60");
+        builder.UseSetting("JwtSettings:RefreshTokenExpirationDays", "7");
+
         builder.ConfigureAppConfiguration((_, config) =>
         {
             config.AddInMemoryCollection(new Dictionary<string, string?>
@@ -52,6 +59,18 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
                 ["JwtSettings:AccessTokenExpirationMinutes"] = "60",
                 ["JwtSettings:RefreshTokenExpirationDays"] = "7"
             });
+        });
+
+        builder.ConfigureServices(services =>
+        {
+            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ProjectApprovalDbContext>));
+            if (descriptor != null)
+            {
+                services.Remove(descriptor);
+            }
+
+            services.AddDbContext<ProjectApprovalDbContext>(options =>
+                options.UseNpgsql(_dbContainer.GetConnectionString()));
         });
     }
 
