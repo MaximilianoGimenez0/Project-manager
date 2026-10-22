@@ -91,7 +91,6 @@ export default function ProjectDetailPage() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.contentWrapper}>
-        {/* Navigation Bar */}
         <div className={styles.navigationBar}>
           <Link to="/search" className={styles.backLink}>
             <FiArrowLeft aria-hidden="true" />
@@ -100,7 +99,6 @@ export default function ProjectDetailPage() {
           <span className={styles.projectCodeBadge}>{projectCode}</span>
         </div>
 
-        {/* Header Section */}
         <header className={styles.headerSection}>
           <div className={styles.headerInfo}>
             <div className={styles.titleRow}>
@@ -112,7 +110,6 @@ export default function ProjectDetailPage() {
           </div>
         </header>
 
-        {/* Next Required Approver Banner */}
         <section
           className={styles.nextApproverSection}
           aria-label={t("pages.projectDetail.nextApproverAriaLabel")}
@@ -183,7 +180,6 @@ export default function ProjectDetailPage() {
           </Card>
         </section>
 
-        {/* Metrics Grid */}
         <section
           className={styles.metricsGrid}
           aria-label={t("pages.projectDetail.metricsAriaLabel")}
@@ -245,11 +241,8 @@ export default function ProjectDetailPage() {
           </Card>
         </section>
 
-        {/* Main Content Layout: Details + Applicant */}
         <div className={styles.mainGrid}>
-          {/* Left Column: Description & Stages */}
           <div className={styles.primaryColumn}>
-            {/* Description Card */}
             <Card padding="lg" className={styles.sectionCard}>
               <div className={styles.cardHeader}>
                 <FiFileText className={styles.sectionIcon} aria-hidden="true" />
@@ -260,7 +253,6 @@ export default function ProjectDetailPage() {
               <p className={styles.descriptionText}>{project.description}</p>
             </Card>
 
-            {/* Approval Workflow Stepper Timeline */}
             <Card padding="lg" className={styles.sectionCard}>
               <div className={styles.cardHeader}>
                 <FiShield className={styles.sectionIcon} aria-hidden="true" />
@@ -367,7 +359,6 @@ export default function ProjectDetailPage() {
             </Card>
           </div>
 
-          {/* Right Column: Applicant Details Sidebar */}
           <aside
             className={styles.secondaryColumn}
             aria-label={t("pages.projectDetail.applicantAriaLabel")}

@@ -27,11 +27,10 @@ export default function DecisionModal({ isOpen, stepId, onClose, onDecision }: D
         isValid,
     } = useMakeDecision({ stepId, onSubmit: onDecision });
 
-    // Focus management: capture previous focus and restore on close, focus first input on open
     useEffect(() => {
         if (isOpen) {
             previousFocusRef.current = document.activeElement as HTMLElement | null;
-            // Delay slightly to ensure elements are mounted
+            // Defer focus until modal entrance transition finishes
             const timer = setTimeout(() => {
                 const firstInput = modalRef.current?.querySelector<HTMLElement>(
                     "select, input, textarea, button"
@@ -39,7 +38,6 @@ export default function DecisionModal({ isOpen, stepId, onClose, onDecision }: D
                 firstInput?.focus();
             }, 50);
 
-            // Lock body scroll while modal is active
             const originalOverflow = document.body.style.overflow;
             document.body.style.overflow = "hidden";
 
@@ -51,7 +49,6 @@ export default function DecisionModal({ isOpen, stepId, onClose, onDecision }: D
         }
     }, [isOpen]);
 
-    // Keyboard handling: Escape to close and Tab trapping
     useEffect(() => {
         function handleKeyDown(event: KeyboardEvent) {
             if (!isOpen) return;

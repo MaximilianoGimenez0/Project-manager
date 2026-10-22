@@ -20,7 +20,6 @@ export default function Navbar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const userButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -31,7 +30,6 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Close menus on Escape key
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -56,8 +54,6 @@ export default function Navbar() {
     navigate("/login", { replace: true });
   }
 
-  // When logged in: show all navigation links.
-  // When not logged in: only show Home (Dashboard) and About.
   const navLinks = isAuthenticated
     ? [
         { to: "/", label: t("navbar.dashboard") },
@@ -74,7 +70,6 @@ export default function Navbar() {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        {/* Left: Brand with SVG Logo */}
         <div className={styles.brandContainer}>
           <NavLink to="/" className={styles.brandLink}>
             <BrandLogo size="sm" />
@@ -82,7 +77,6 @@ export default function Navbar() {
           </NavLink>
         </div>
 
-        {/* Center: Navigation Links */}
         <nav
           id="mobile-navigation-menu"
           className={`${styles.navLinks} ${isMobileMenuOpen ? styles.navLinksOpen : ""}`}
@@ -112,7 +106,6 @@ export default function Navbar() {
           )}
         </nav>
 
-        {/* Right: Actions & User Menu */}
         <div className={styles.rightSection} ref={dropdownRef}>
           <ThemeToggle />
           <LanguageSelector />
@@ -183,7 +176,6 @@ export default function Navbar() {
             </NavLink>
           )}
 
-          {/* Mobile Menu Toggle Button */}
           <button
             className={styles.burgerButton}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

@@ -43,7 +43,6 @@ export default function CreateProject() {
     }
   }
 
-  // Completeness flags for interactive guidance checklist
   const hasTitle = Boolean(liveForm?.title?.trim());
   const hasDescription = Boolean(liveForm?.description?.trim());
   const hasAmount = Boolean(liveForm?.amount && liveForm.amount > 0);
@@ -62,7 +61,6 @@ export default function CreateProject() {
 
   return (
     <div className={styles.pageContainer}>
-      {/* Row 1: Proposal Draft Header (Single full-width row) */}
       <header className={styles.pageHeader}>
         <div className={styles.headerTitleRow}>
           <h1 className={styles.title}>
@@ -78,9 +76,7 @@ export default function CreateProject() {
         </p>
       </header>
 
-      {/* Row 2: 2 Uniform Columns (Form & Preview/Guidance) */}
       <div className={styles.columnsLayout}>
-        {/* Column 1: Proposal Form */}
         <section className={styles.formColumn} aria-label={t("pages.createProject.header.title")}>
           <div className={styles.formCard}>
             <ProjectForm
@@ -90,9 +86,7 @@ export default function CreateProject() {
           </div>
         </section>
 
-        {/* Column 2: Live Preview & Quality Checklist */}
         <aside className={styles.sidebarColumn} aria-label={t("projects.form.previewTitle")}>
-          {/* Live Proposal Preview Card */}
           <div className={styles.previewCard}>
             <div className={styles.previewHeader}>
               <span className={styles.previewBadge}>
@@ -166,7 +160,6 @@ export default function CreateProject() {
             </div>
           </div>
 
-          {/* Institutional Quality Checklist */}
           <div className={styles.guidanceCard}>
             <div className={styles.guidanceHeader}>
               <h2 className={styles.guidanceTitle}>

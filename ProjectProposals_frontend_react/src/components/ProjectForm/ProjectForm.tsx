@@ -30,7 +30,6 @@ export default function ProjectForm({ onSubmit, onFormChange }: ProjectFormProps
 
     return (
         <form className={styles.form} onSubmit={handleSubmit} noValidate>
-            {/* Executive Author Banner */}
             {selectedUser ? (
                 <div className={styles.authorCard}>
                     <div className={styles.authorAvatar} aria-hidden="true">
@@ -61,7 +60,6 @@ export default function ProjectForm({ onSubmit, onFormChange }: ProjectFormProps
                 </div>
             )}
 
-            {/* Title */}
             <div className={styles.field}>
                 <div className={styles.labelRow}>
                     <label htmlFor="title" className={styles.label}>
@@ -86,7 +84,6 @@ export default function ProjectForm({ onSubmit, onFormChange }: ProjectFormProps
                 {errors.title && <span id="title-error" className={styles.error}>{errors.title}</span>}
             </div>
 
-            {/* Description */}
             <div className={styles.field}>
                 <div className={styles.labelRow}>
                     <label htmlFor="description" className={styles.label}>
@@ -113,9 +110,7 @@ export default function ProjectForm({ onSubmit, onFormChange }: ProjectFormProps
                 )}
             </div>
 
-            {/* Amount & Duration 2-Column Grid */}
             <div className={styles.twoColGrid}>
-                {/* Amount */}
                 <div className={styles.field}>
                     <label htmlFor="amount" className={styles.label}>
                         {t("projects.form.amount")} ($) <span className={styles.requiredMark}>*</span>
@@ -145,7 +140,6 @@ export default function ProjectForm({ onSubmit, onFormChange }: ProjectFormProps
                     {errors.amount && <span id="amount-error" className={styles.error}>{errors.amount}</span>}
                 </div>
 
-                {/* Duration */}
                 <div className={styles.field}>
                     <label htmlFor="duration" className={styles.label}>
                         {t("projects.form.duration")} ({t("projects.card.months")}) <span className={styles.requiredMark}>*</span>
@@ -172,9 +166,7 @@ export default function ProjectForm({ onSubmit, onFormChange }: ProjectFormProps
                 </div>
             </div>
 
-            {/* Area & Type 2-Column Grid */}
             <div className={styles.twoColGrid}>
-                {/* Area */}
                 <div className={styles.field}>
                     <label htmlFor="area" className={styles.label}>
                         {t("projects.card.area")} <span className={styles.requiredMark}>*</span>
@@ -199,7 +191,6 @@ export default function ProjectForm({ onSubmit, onFormChange }: ProjectFormProps
                     {errors.area && <span id="area-error" className={styles.error}>{errors.area}</span>}
                 </div>
 
-                {/* Type */}
                 <div className={styles.field}>
                     <label htmlFor="type" className={styles.label}>
                         {t("projects.card.type")} <span className={styles.requiredMark}>*</span>
@@ -225,7 +216,6 @@ export default function ProjectForm({ onSubmit, onFormChange }: ProjectFormProps
                 </div>
             </div>
 
-            {/* Actions */}
             <div className={styles.formFooter}>
                 <Button
                     type="submit"

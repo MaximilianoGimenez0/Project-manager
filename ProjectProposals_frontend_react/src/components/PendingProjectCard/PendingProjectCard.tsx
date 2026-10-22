@@ -76,7 +76,6 @@ export default function PendingProjectCard({
 
     const isWorkflowCompleted = isProjectWorkflowCompleted(project.status?.id);
 
-    // Identify if there is a step directly awaiting the current user's decision
     const actionableStep = project.steps?.find((step) => {
         const isRoleMatching = hasMatchingRole(currentUser?.role, step.approverRole);
         const isResolved = isStepResolved(step.status?.id);
@@ -129,7 +128,6 @@ export default function PendingProjectCard({
             className={`${styles.cardWrapper} ${hasActionRequired ? styles.cardActionRequired : ""}`}
             padding="lg"
         >
-            {/* Header: Status, Action Badge, Title and Description */}
             <div className={styles.header}>
                 <div className={styles.headerBadges}>
                     {hasActionRequired && (
@@ -152,7 +150,6 @@ export default function PendingProjectCard({
                 )}
             </div>
 
-            {/* Quick Metrics Bar: Amount & Duration */}
             <div className={styles.metricsBar}>
                 <div className={styles.metricItem}>
                     <span className={styles.metricLabel}>{t("projects.card.amount")}</span>
@@ -170,7 +167,6 @@ export default function PendingProjectCard({
                 </div>
             </div>
 
-            {/* Details Pills (Area, Type, Applicant) */}
             <div className={styles.metaRow}>
                 <div className={styles.metaPill}>
                     <FiLayers className={styles.metaIcon} />
@@ -196,7 +192,6 @@ export default function PendingProjectCard({
                 )}
             </div>
 
-            {/* Steps Timeline Section */}
             {project.steps && project.steps.length > 0 && (
                 <div className={styles.stepsSection}>
                     <div className={styles.stepsSectionHeader}>
@@ -266,7 +261,6 @@ export default function PendingProjectCard({
                 </div>
             )}
 
-            {/* Card Footer: View Details link & Primary Decide button */}
             <div className={styles.cardFooter}>
                 <Link to={`/project/${project.id}`} className={styles.viewDetailLink}>
                     <span>{t("pages.pending.viewDetails")}</span>
@@ -285,7 +279,6 @@ export default function PendingProjectCard({
                 )}
             </div>
 
-            {/* Render DecisionModal only when explicitly opened */}
             {isDecisionModalOpen && (
                 <DecisionModal
                     isOpen={isDecisionModalOpen}

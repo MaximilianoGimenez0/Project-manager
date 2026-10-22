@@ -18,7 +18,6 @@ export default function About() {
       </header>
 
       <div className={styles.contentContainer}>
-        {/* Project Overview & Problem Statement */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>
             <FiTarget className={styles.icon} /> {t("pages.about.challenge.title")}
@@ -30,7 +29,6 @@ export default function About() {
           </div>
         </section>
 
-        {/* Solution & Features */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>
             <FiCheckCircle className={styles.icon} /> {t("pages.about.solution.title")}
@@ -47,7 +45,6 @@ export default function About() {
           </div>
         </section>
 
-        {/* Tech Stack */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>
             <FiTool className={styles.icon} /> {t("pages.about.tech.title")}
@@ -77,7 +74,6 @@ export default function About() {
           </div>
         </section>
 
-        {/* Future Improvements */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>
             <FiTrendingUp className={styles.icon} /> {t("pages.about.roadmap.title")}

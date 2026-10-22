@@ -4,7 +4,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { MainLayout } from "@/layouts";
 import ProtectedRoute from "./ProtectedRoute";
 
-// Route-level code splitting
 const Home = lazy(() => import("@/pages/Home"));
 const About = lazy(() => import("@/pages/About"));
 const Login = lazy(() => import("@/pages/Login"));
@@ -48,12 +47,10 @@ export default function AppRouter() {
     <Suspense fallback={<PageLoader />}>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          {/* Public Routes */}
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="login" element={<Login />} />
 
-          {/* Protected Routes requiring authentication */}
           <Route element={<ProtectedRoute />}>
             <Route path="create-project" element={<CreateProject />} />
             <Route
@@ -66,7 +63,6 @@ export default function AppRouter() {
             <Route path="projects/:id" element={<ProjectDetailPage />} />
           </Route>
 
-          {/* Catch-all Route */}
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

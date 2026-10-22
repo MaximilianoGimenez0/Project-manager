@@ -53,7 +53,6 @@ export default function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
 
-  // Destination path after successful login
   const fromPath = (location.state as { from?: { pathname: string } })?.from?.pathname || "/";
 
   useEffect(() => {
@@ -215,7 +214,6 @@ export default function Login() {
             </form>
           </div>
 
-          {/* Quick-fill Demo Users Section */}
           <section className={styles.demoSection}>
             <div className={styles.demoHeader}>
               <FiUserCheck className={styles.demoIcon} />

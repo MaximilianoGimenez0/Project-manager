@@ -19,7 +19,6 @@ export default function Home() {
 
   return (
     <div className={styles.pageContainer}>
-      {/* Hero Section */}
       <section className={styles.heroSection}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
@@ -107,7 +106,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Product Overview */}
       <section className={styles.overviewSection}>
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>{t("pages.home.overview.title", { appName: APP_NAME })}</h2>
@@ -117,7 +115,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className={styles.featuresSection}>
         <div className={styles.featuresGrid}>
           <div className={styles.featureCard}>
@@ -143,7 +140,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Workflow Section */}
       <section className={styles.workflowSection}>
         <h2 className={styles.sectionTitleCenter}>{t("pages.home.howItWorks.title")}</h2>
         <div className={styles.workflowSteps}>
@@ -179,7 +175,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Tech Info Section */}
       <section className={styles.techSection}>
         <div className={styles.techContent}>
           <div className={styles.techIcon}><FiLayers /></div>

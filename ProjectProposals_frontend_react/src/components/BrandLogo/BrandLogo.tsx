@@ -36,7 +36,6 @@ export default function BrandLogo({
           </linearGradient>
         </defs>
 
-        {/* Base container */}
         <rect
           x="2"
           y="2"
@@ -56,7 +55,6 @@ export default function BrandLogo({
           strokeWidth="1"
         />
 
-        {/* Project proposal sheet */}
         <rect
           x="7"
           y="6"
@@ -66,7 +64,6 @@ export default function BrandLogo({
           fill="rgba(255,255,255,0.18)"
         />
 
-        {/* Document metadata lines */}
         <line
           x1="10"
           y1="10"
@@ -95,7 +92,6 @@ export default function BrandLogo({
           strokeLinecap="round"
         />
 
-        {/* Approval status badge */}
         <circle cx="19.5" cy="19.5" r="5.5" fill="#10b981" />
         <path
           d="M17.5 19.5L18.8 20.8L21.8 17.8"

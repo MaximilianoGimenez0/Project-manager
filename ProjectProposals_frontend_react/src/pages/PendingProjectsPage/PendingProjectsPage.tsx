@@ -51,7 +51,6 @@ export default function PendingProjectsPage() {
 
     const [searchQuery, setSearchQuery] = useState("");
 
-    // Compute executive KPI stats
     const stats = useMemo(() => {
         let actionableCount = 0;
         let totalBudget = 0;
@@ -78,7 +77,6 @@ export default function PendingProjectsPage() {
         };
     }, [projects, currentUser]);
 
-    // Fast client-side search across relevant proposal fields (supporting original & localized terms)
     const filteredProjects = useMemo(() => {
         if (!searchQuery.trim()) {
             return projects;
@@ -105,7 +103,6 @@ export default function PendingProjectsPage() {
 
     return (
         <div className={styles.pageContainer}>
-            {/* Executive Header with Refresh Action */}
             <div className={styles.header}>
                 <div className={styles.headerContent}>
                     <h1 className={styles.title}>
@@ -128,7 +125,6 @@ export default function PendingProjectsPage() {
                 </div>
             </div>
 
-            {/* KPI Stats Summary Cards */}
             {!error && projects.length > 0 && (
                 <div className={styles.statsGrid}>
                     <div className={styles.statCard}>
@@ -163,7 +159,6 @@ export default function PendingProjectsPage() {
                 </div>
             )}
 
-            {/* Search and Toolbar */}
             {!error && projects.length > 0 && (
                 <div className={styles.toolbar}>
                     <div className={styles.searchBox}>
@@ -194,9 +189,7 @@ export default function PendingProjectsPage() {
                 </div>
             )}
 
-            {/* Dashboard Content */}
             <div className={styles.dashboardContent}>
-                {/* Skeleton Loading State */}
                 {isLoading && projects.length === 0 && (
                     <div className={styles.skeletonGrid}>
                         {[1, 2, 3].map((index) => (
@@ -211,7 +204,6 @@ export default function PendingProjectsPage() {
                     </div>
                 )}
 
-                {/* Error State with Retry Button */}
                 {error && (
                     <div className={styles.errorState}>
                         <FiAlertTriangle className={styles.errorIcon} />
@@ -229,7 +221,6 @@ export default function PendingProjectsPage() {
                     </div>
                 )}
 
-                {/* Empty State: Zero matches from Search */}
                 {!isLoading && !error && projects.length > 0 && filteredProjects.length === 0 && (
                     <div className={styles.emptyState}>
                         <div className={styles.emptyIcon}><FiInbox /></div>
@@ -247,7 +238,6 @@ export default function PendingProjectsPage() {
                     </div>
                 )}
 
-                {/* Empty State: Zero pending proposals overall */}
                 {!isLoading && !error && projects.length === 0 && (
                     <div className={styles.emptyState}>
                         <div className={styles.emptyIconSuccess}><FiCheckCircle /></div>
@@ -256,7 +246,6 @@ export default function PendingProjectsPage() {
                     </div>
                 )}
 
-                {/* Projects Grid */}
                 {!error && filteredProjects.length > 0 && (
                     <div className={styles.projectsList}>
                         {filteredProjects.map((project) => (

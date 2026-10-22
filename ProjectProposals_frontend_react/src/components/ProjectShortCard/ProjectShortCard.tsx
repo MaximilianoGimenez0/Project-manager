@@ -27,7 +27,6 @@ export default function ProjectShortCard({ project }: ProjectShortCardProps) {
             aria-label={t("projects.card.viewDetailsFor", { title: project.title })}
         >
             <Card className={styles.cardContent}>
-                {/* Meta row: category tags and status badge */}
                 <div className={styles.metaRow}>
                     <div className={styles.tagsGroup}>
                         {translatedArea && (
@@ -48,7 +47,6 @@ export default function ProjectShortCard({ project }: ProjectShortCardProps) {
                     </Badge>
                 </div>
 
-                {/* Content: Title & clamped description */}
                 <div className={styles.body}>
                     <h3 className={styles.title}>{project.title}</h3>
                     {project.description && (
@@ -56,7 +54,6 @@ export default function ProjectShortCard({ project }: ProjectShortCardProps) {
                     )}
                 </div>
 
-                {/* Metrics 2-column block */}
                 <div className={styles.metricsGrid}>
                     <div className={styles.metricItem}>
                         <span className={styles.metricLabel}>{t("projects.card.amount")}</span>
@@ -73,7 +70,6 @@ export default function ProjectShortCard({ project }: ProjectShortCardProps) {
                     </div>
                 </div>
 
-                {/* Card footer action */}
                 <div className={styles.footerAction}>
                     <span className={styles.viewProposalText}>
                         {t("projects.card.viewProposal")}
