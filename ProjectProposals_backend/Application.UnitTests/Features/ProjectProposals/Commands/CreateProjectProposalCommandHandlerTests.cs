@@ -222,5 +222,128 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
             await act.Should().ThrowAsync<BadRequestException>()
                 .WithMessage("No se encontraron reglas de aprobación aplicables para los parámetros del proyecto.");
         }
+
+        [Theory]
+        [InlineData(null, "Desc", 1000.0, 6, 1, 1, 1)]
+        [InlineData("Title", null, 1000.0, 6, 1, 1, 1)]
+        [InlineData("Title", "Desc", null, 6, 1, 1, 1)]
+        [InlineData("Title", "Desc", 1000.0, null, 1, 1, 1)]
+        [InlineData("Title", "Desc", 1000.0, 6, null, 1, 1)]
+        [InlineData("Title", "Desc", 1000.0, 6, 1, null, 1)]
+        [InlineData("Title", "Desc", 1000.0, 6, 1, 1, null)]
+        public async Task Handle_WhenRequiredFieldIsMissing_ThrowsBadRequestException(
+            string? title, string? desc, double? amount, int? duration, int? area, int? type, int? user)
+        {
+            // Arrange
+            var request = new ProjectProposalCreateRequest
+            {
+                Title = title,
+                Description = desc,
+                Amount = amount.HasValue ? (decimal)amount.Value : null,
+                Duration = duration,
+                Area = area,
+                Type = type,
+                User = user
+            };
+            var command = new CreateProjectProposalCommand(request);
+
+            // Act
+            var act = () => _handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            await act.Should().ThrowAsync<BadRequestException>()
+                .WithMessage("Todos los campos obligatorios deben completarse.");
+        }
+
+        [Fact]
+        public async Task Handle_WhenTypeDoesNotExist_ThrowsBadRequestException()
+        {
+            // Arrange
+            var request = new ProjectProposalCreateRequest
+            {
+                Title = "Proyecto Válido",
+                Description = "Descripción",
+                Amount = 1000,
+                Duration = 1,
+                Area = 1,
+                Type = 999,
+                User = 1
+            };
+
+            _areaRepositoryMock.Setup(r => r.GetById(1)).ReturnsAsync(new Area { Id = 1, Name = "Finanzas" });
+            _typeRepositoryMock.Setup(r => r.GetById(999)).ReturnsAsync((ProjectType?)null);
+
+            var command = new CreateProjectProposalCommand(request);
+
+            // Act
+            var act = () => _handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            await act.Should().ThrowAsync<BadRequestException>()
+                .WithMessage("El tipo de proyecto ingresado no existe.");
+        }
+
+        [Fact]
+        public async Task Handle_WhenUserDoesNotExist_ThrowsBadRequestException()
+        {
+            // Arrange
+            var request = new ProjectProposalCreateRequest
+            {
+                Title = "Proyecto Válido",
+                Description = "Descripción",
+                Amount = 1000,
+                Duration = 1,
+                Area = 1,
+                Type = 1,
+                User = 999
+            };
+
+            _areaRepositoryMock.Setup(r => r.GetById(1)).ReturnsAsync(new Area { Id = 1, Name = "Finanzas" });
+            _typeRepositoryMock.Setup(r => r.GetById(1)).ReturnsAsync(new ProjectType { Id = 1, Name = "Mejora" });
+            _userRepositoryMock.Setup(r => r.GetById(999)).ReturnsAsync((User?)null);
+
+            var command = new CreateProjectProposalCommand(request);
+
+            // Act
+            var act = () => _handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            await act.Should().ThrowAsync<BadRequestException>()
+                .WithMessage("El usuario creador ingresado no existe.");
+        }
+
+        [Fact]
+        public async Task Handle_WhenCreatedEntityCannotBeRetrieved_ThrowsBadRequestException()
+        {
+            // Arrange
+            var request = new ProjectProposalCreateRequest
+            {
+                Title = "Proyecto Recuperación Fallida",
+                Description = "Descripción",
+                Amount = 10000,
+                Duration = 2,
+                Area = 1,
+                Type = 1,
+                User = 1
+            };
+
+            _areaRepositoryMock.Setup(r => r.GetById(1)).ReturnsAsync(new Area { Id = 1, Name = "Finanzas" });
+            _typeRepositoryMock.Setup(r => r.GetById(1)).ReturnsAsync(new ProjectType { Id = 1, Name = "Mejora" });
+            _userRepositoryMock.Setup(r => r.GetById(1)).ReturnsAsync(new User { Id = 1, Name = "José" });
+            _projectRepositoryMock.Setup(r => r.GetAll()).ReturnsAsync(new List<ProjectProposal>());
+            _engineMock.Setup(e => e.CalculateStepsAsync(It.IsAny<ProjectProposal>()))
+                .ReturnsAsync(new List<ProjectApprovalStep> { new ProjectApprovalStep { StepOrder = 1, ApproverRoleId = 10 } });
+            _projectRepositoryMock.Setup(r => r.Add(It.IsAny<ProjectProposal>())).ReturnsAsync(true);
+            _projectRepositoryMock.Setup(r => r.GetById(It.IsAny<Guid>())).ReturnsAsync((ProjectProposal?)null);
+
+            var command = new CreateProjectProposalCommand(request);
+
+            // Act
+            var act = () => _handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            await act.Should().ThrowAsync<BadRequestException>()
+                .WithMessage("Error al recuperar la propuesta creada.");
+        }
     }
 }

@@ -243,5 +243,234 @@ namespace Application.UnitTests.Features.ProjectProposals.Commands
             await act.Should().ThrowAsync<ConflictException>()
                 .WithMessage("El usuario creador de la propuesta no puede actuar como aprobador de la misma.");
         }
+
+        [Fact]
+        public async Task Handle_WhenProjectIdIsEmpty_ThrowsBadRequestException()
+        {
+            // Arrange
+            var command = new DecideProjectStepCommand(Guid.Empty, new DecisionStepUpdateRequest());
+
+            // Act
+            var act = () => _handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            await act.Should().ThrowAsync<BadRequestException>()
+                .WithMessage("El ID del proyecto no puede estar vacío.");
+        }
+
+        [Fact]
+        public async Task Handle_WhenDecidingUserDoesNotExist_ThrowsBadRequestException()
+        {
+            // Arrange
+            var projectId = Guid.NewGuid();
+            var project = new ProjectProposal { Id = projectId, Status = (int)ApprovalStatusEnum.Pending };
+            _projectRepositoryMock.Setup(r => r.GetById(projectId)).ReturnsAsync(project);
+            _userRepositoryMock.Setup(r => r.GetById(99)).ReturnsAsync((User?)null);
+
+            var command = new DecideProjectStepCommand(projectId, new DecisionStepUpdateRequest
+            {
+                Id = 1,
+                User = 99,
+                Status = (int)ApprovalStatusEnum.Approved
+            });
+
+            // Act
+            var act = () => _handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            await act.Should().ThrowAsync<BadRequestException>()
+                .WithMessage("El usuario ingresado no existe.");
+        }
+
+        [Fact]
+        public async Task Handle_WhenNoPendingStepsExist_ThrowsBadRequestException()
+        {
+            // Arrange
+            var projectId = Guid.NewGuid();
+            var project = new ProjectProposal
+            {
+                Id = projectId,
+                Status = (int)ApprovalStatusEnum.Pending,
+                Steps = new List<ProjectApprovalStep>() // Sin pasos pendientes
+            };
+            _projectRepositoryMock.Setup(r => r.GetById(projectId)).ReturnsAsync(project);
+            _userRepositoryMock.Setup(r => r.GetById(1)).ReturnsAsync(new User { Id = 1, Role = (int)ApproverRoleEnum.AreaLeader });
+
+            var command = new DecideProjectStepCommand(projectId, new DecisionStepUpdateRequest
+            {
+                Id = 1,
+                User = 1,
+                Status = (int)ApprovalStatusEnum.Approved
+            });
+
+            // Act
+            var act = () => _handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            await act.Should().ThrowAsync<BadRequestException>()
+                .WithMessage("El proyecto no tiene un paso pendiente de aprobación.");
+        }
+
+        [Fact]
+        public async Task Handle_WhenStepIdDoesNotMatchNextPendingStep_ThrowsBadRequestException()
+        {
+            // Arrange
+            var projectId = Guid.NewGuid();
+            var step1 = new ProjectApprovalStep { Id = 10, StepOrder = 1, Status = (int)ApprovalStatusEnum.Pending, ApproverRoleId = 10 };
+            var step2 = new ProjectApprovalStep { Id = 20, StepOrder = 2, Status = (int)ApprovalStatusEnum.Pending, ApproverRoleId = 20 };
+            var project = new ProjectProposal
+            {
+                Id = projectId,
+                Status = (int)ApprovalStatusEnum.Pending,
+                Steps = new List<ProjectApprovalStep> { step1, step2 }
+            };
+            _projectRepositoryMock.Setup(r => r.GetById(projectId)).ReturnsAsync(project);
+            _userRepositoryMock.Setup(r => r.GetById(1)).ReturnsAsync(new User { Id = 1, Role = 20 });
+
+            // User tries to approve step 20 while step 10 is the next pending step
+            var command = new DecideProjectStepCommand(projectId, new DecisionStepUpdateRequest
+            {
+                Id = 20,
+                User = 1,
+                Status = (int)ApprovalStatusEnum.Approved
+            });
+
+            // Act
+            var act = () => _handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            await act.Should().ThrowAsync<BadRequestException>()
+                .WithMessage("El id del paso no corresponde con el próximo paso pendiente de aprobación.");
+        }
+
+        [Fact]
+        public async Task Handle_WhenUserRoleDoesNotMatchRequiredApproverRole_ThrowsBadRequestException()
+        {
+            // Arrange
+            var projectId = Guid.NewGuid();
+            var step1 = new ProjectApprovalStep { Id = 10, StepOrder = 1, Status = (int)ApprovalStatusEnum.Pending, ApproverRoleId = (int)ApproverRoleEnum.Director };
+            var project = new ProjectProposal
+            {
+                Id = projectId,
+                Status = (int)ApprovalStatusEnum.Pending,
+                Steps = new List<ProjectApprovalStep> { step1 }
+            };
+            _projectRepositoryMock.Setup(r => r.GetById(projectId)).ReturnsAsync(project);
+            // User is AreaLeader (10), but step requires Director (30)
+            _userRepositoryMock.Setup(r => r.GetById(1)).ReturnsAsync(new User { Id = 1, Role = (int)ApproverRoleEnum.AreaLeader });
+
+            var command = new DecideProjectStepCommand(projectId, new DecisionStepUpdateRequest
+            {
+                Id = 10,
+                User = 1,
+                Status = (int)ApprovalStatusEnum.Approved
+            });
+
+            // Act
+            var act = () => _handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            await act.Should().ThrowAsync<BadRequestException>()
+                .WithMessage("El rol del usuario no corresponde, no puede aprobar este paso.");
+        }
+
+        [Fact]
+        public async Task Handle_WhenStepUpdateFails_ThrowsBadRequestException()
+        {
+            // Arrange
+            var projectId = Guid.NewGuid();
+            var step1 = new ProjectApprovalStep { Id = 10, StepOrder = 1, Status = (int)ApprovalStatusEnum.Pending, ApproverRoleId = 10 };
+            var project = new ProjectProposal
+            {
+                Id = projectId,
+                Status = (int)ApprovalStatusEnum.Pending,
+                Steps = new List<ProjectApprovalStep> { step1 }
+            };
+            _projectRepositoryMock.Setup(r => r.GetById(projectId)).ReturnsAsync(project);
+            _userRepositoryMock.Setup(r => r.GetById(1)).ReturnsAsync(new User { Id = 1, Role = 10 });
+            _stepRepositoryMock.Setup(r => r.Update(It.IsAny<ProjectApprovalStep>())).ReturnsAsync(false); // Update fails
+
+            var command = new DecideProjectStepCommand(projectId, new DecisionStepUpdateRequest
+            {
+                Id = 10,
+                User = 1,
+                Status = (int)ApprovalStatusEnum.Approved
+            });
+
+            // Act
+            var act = () => _handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            await act.Should().ThrowAsync<BadRequestException>()
+                .WithMessage("Datos de decisión inválidos.");
+        }
+
+        [Fact]
+        public async Task Handle_WhenObservingStep_SetsProjectStatusToObserved()
+        {
+            // Arrange
+            var projectId = Guid.NewGuid();
+            var step1 = new ProjectApprovalStep { Id = 10, StepOrder = 1, Status = (int)ApprovalStatusEnum.Pending, ApproverRoleId = 10 };
+            var project = new ProjectProposal
+            {
+                Id = projectId,
+                Status = (int)ApprovalStatusEnum.Pending,
+                Steps = new List<ProjectApprovalStep> { step1 }
+            };
+            _projectRepositoryMock.Setup(r => r.GetById(projectId)).ReturnsAsync(project);
+            _userRepositoryMock.Setup(r => r.GetById(1)).ReturnsAsync(new User { Id = 1, Role = 10 });
+            _stepRepositoryMock.Setup(r => r.Update(It.IsAny<ProjectApprovalStep>())).ReturnsAsync(true);
+            _projectRepositoryMock.Setup(r => r.Update(It.IsAny<ProjectProposal>())).ReturnsAsync(true);
+
+            var command = new DecideProjectStepCommand(projectId, new DecisionStepUpdateRequest
+            {
+                Id = 10,
+                User = 1,
+                Status = (int)ApprovalStatusEnum.Observed,
+                Observation = "Requiere ajustar presupuesto"
+            });
+
+            // Act
+            var result = await _handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            step1.Status.Should().Be((int)ApprovalStatusEnum.Observed);
+            project.Status.Should().Be((int)ApprovalStatusEnum.Observed);
+        }
+
+        [Fact]
+        public async Task Handle_WhenApprovingIntermediateStep_KeepsProjectStatusPending()
+        {
+            // Arrange
+            var projectId = Guid.NewGuid();
+            var step1 = new ProjectApprovalStep { Id = 10, StepOrder = 1, Status = (int)ApprovalStatusEnum.Pending, ApproverRoleId = 10 };
+            var step2 = new ProjectApprovalStep { Id = 20, StepOrder = 2, Status = (int)ApprovalStatusEnum.Pending, ApproverRoleId = 20 };
+            var project = new ProjectProposal
+            {
+                Id = projectId,
+                Status = (int)ApprovalStatusEnum.Pending,
+                Steps = new List<ProjectApprovalStep> { step1, step2 }
+            };
+            _projectRepositoryMock.Setup(r => r.GetById(projectId)).ReturnsAsync(project);
+            _userRepositoryMock.Setup(r => r.GetById(1)).ReturnsAsync(new User { Id = 1, Role = 10 });
+            _stepRepositoryMock.Setup(r => r.Update(It.IsAny<ProjectApprovalStep>())).ReturnsAsync(true);
+            _projectRepositoryMock.Setup(r => r.Update(It.IsAny<ProjectProposal>())).ReturnsAsync(true);
+
+            var command = new DecideProjectStepCommand(projectId, new DecisionStepUpdateRequest
+            {
+                Id = 10,
+                User = 1,
+                Status = (int)ApprovalStatusEnum.Approved,
+                Observation = "Paso 1 aprobado"
+            });
+
+            // Act
+            var result = await _handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            step1.Status.Should().Be((int)ApprovalStatusEnum.Approved);
+            step2.Status.Should().Be((int)ApprovalStatusEnum.Pending);
+            project.Status.Should().Be((int)ApprovalStatusEnum.Pending); // Still pending because step 2 is pending
+        }
     }
 }

@@ -26,6 +26,20 @@ namespace Application.UnitTests.Mappings
         }
 
         [Fact]
+        public void AutoMapper_Configuration_ShouldBeValid()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<CommonMappingProfile>();
+                cfg.AddProfile<UserMappingProfile>();
+                cfg.AddProfile<ProjectApprovalStepMappingProfile>();
+                cfg.AddProfile<ProjectProposalMappingProfile>();
+            }, NullLoggerFactory.Instance);
+
+            config.AssertConfigurationIsValid();
+        }
+
+        [Fact]
         public void AutoMapper_Profiles_ShouldMapProjectProposalToProjectResponseCorrectly()
         {
             // Arrange

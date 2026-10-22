@@ -230,5 +230,34 @@ namespace Application.UnitTests.Common
             result[1].StepOrder.Should().Be(2);
             result[1].ApproverRoleId.Should().Be((int)ApproverRoleEnum.Director);
         }
+
+        [Fact]
+        public async Task CalculateStepsAsync_WhenRoleRepositoryIsNull_UsesDefaultHierarchies()
+        {
+            // Arrange: Using single-argument constructor
+            var engineWithoutRoles = new ApprovalStepEngine(_ruleRepositoryMock.Object);
+
+            var rule1 = new ApprovalRule(0, 100000, 1, (int)ApproverRoleEnum.Director) { Id = 1 };
+            var rule2 = new ApprovalRule(0, 100000, 2, (int)ApproverRoleEnum.TechnicalCommittee) { Id = 2 };
+            var rule3 = new ApprovalRule(0, 100000, 3, 99) { Id = 3 }; // Unknown role, falls back to 99 * 10
+
+            _ruleRepositoryMock.Setup(r => r.GetAll()).ReturnsAsync(new List<ApprovalRule> { rule1, rule2, rule3 });
+
+            var project = new ProjectProposal { EstimatedAmount = 50000 };
+
+            // Act
+            var result = await engineWithoutRoles.CalculateStepsAsync(project);
+
+            // Assert: TechnicalCommittee (15) < Director (30) < Unknown 99 (990)
+            result.Should().HaveCount(3);
+            result[0].StepOrder.Should().Be(1);
+            result[0].ApproverRoleId.Should().Be((int)ApproverRoleEnum.TechnicalCommittee);
+
+            result[1].StepOrder.Should().Be(2);
+            result[1].ApproverRoleId.Should().Be((int)ApproverRoleEnum.Director);
+
+            result[2].StepOrder.Should().Be(3);
+            result[2].ApproverRoleId.Should().Be(99);
+        }
     }
 }
