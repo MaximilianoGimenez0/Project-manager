@@ -34,7 +34,8 @@ public class AuthEndpointsTests : BaseIntegrationTest
         auth.User.Should().NotBeNull();
         auth.User.Email.Should().Be("jferreyra@unaj.com");
         auth.User.Name.Should().Be("José Ferreyra");
-        auth.User.Role.Should().Be(2);
+        auth.User.Role.Id.Should().Be(2);
+        auth.User.Role.Name.Should().Be("Gerente");
     }
 
     [Fact]
@@ -127,7 +128,8 @@ public class AuthEndpointsTests : BaseIntegrationTest
         user!.Id.Should().Be(1);
         user.Email.Should().Be("jferreyra@unaj.com");
         user.Name.Should().Be("José Ferreyra");
-        user.Role.Should().Be(2);
+        user.Role.Id.Should().Be(2);
+        user.Role.Name.Should().Be("Gerente");
     }
 
     [Fact]

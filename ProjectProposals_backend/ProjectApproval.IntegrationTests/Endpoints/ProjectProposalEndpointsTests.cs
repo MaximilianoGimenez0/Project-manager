@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using Application.Dtos.Requests;
 using Application.Dtos.Responses;
+using Domain.Enums;
 using FluentAssertions;
 using ProjectApproval.IntegrationTests.Common;
 using Xunit;
@@ -138,6 +139,13 @@ public class ProjectProposalEndpointsTests : BaseIntegrationTest
             User = 2
         });
         var created = (await createResponse.Content.ReadFromJsonAsync<ProjectResponse>())!;
+
+        await ExecuteDbContextAsync(async db =>
+        {
+            var entity = await db.ProjectProposals.FindAsync(created.Id);
+            entity!.Status = (int)ApprovalStatusEnum.Observed;
+            await db.SaveChangesAsync();
+        });
 
         var updateRequest = new ProjectUpdateRequest
         {
