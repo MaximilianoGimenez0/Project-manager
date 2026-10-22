@@ -1,0 +1,53 @@
+name: Backend CI Pipeline
+
+on:
+  push:
+    branches: [ main, master, develop ]
+    paths:
+      - 'ProjectProposals_backend/**'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [ main, master, develop ]
+    paths:
+      - 'ProjectProposals_backend/**'
+      - '.github/workflows/**'
+
+jobs:
+  build-and-test:
+    name: Build & Test Suite
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ProjectProposals_backend
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Build Solution
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run Architecture Tests
+        run: dotnet test ProjectApproval.ArchitectureTests/ProjectApproval.ArchitectureTests.csproj --configuration Release --no-build --logger "trx;LogFileName=arch-results.trx"
+
+      - name: Run Unit Tests with Coverage
+        run: dotnet test Application.UnitTests/Application.UnitTests.csproj --configuration Release --no-build --collect:"XPlat Code Coverage" --settings coverlet.runsettings --results-directory ./TestResults/UnitTests --logger "trx;LogFileName=unit-results.trx"
+
+      - name: Run Integration Tests (Testcontainers PostgreSQL)
+        run: dotnet test ProjectApproval.IntegrationTests/ProjectApproval.IntegrationTests.csproj --configuration Release --no-build --collect:"XPlat Code Coverage" --settings coverlet.runsettings --results-directory ./TestResults/IntegrationTests --logger "trx;LogFileName=integration-results.trx"
+
+      - name: Upload Test Results & Coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-and-coverage
+          path: ProjectProposals_backend/TestResults
