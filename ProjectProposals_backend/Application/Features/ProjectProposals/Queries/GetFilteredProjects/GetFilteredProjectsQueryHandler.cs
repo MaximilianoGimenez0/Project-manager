@@ -41,7 +41,6 @@ namespace Application.Features.ProjectProposals.Queries.GetFilteredProjects
         {
             var projects = await _projectProposalRepository.GetAll();
 
-            // Filtrado por usuario con rol de aprobación
             if (query.ApprovalUser != null)
             {
                 var user = await _userRepository.GetById(query.ApprovalUser.Value);
@@ -66,7 +65,6 @@ namespace Application.Features.ProjectProposals.Queries.GetFilteredProjects
                 ).ToList();
             }
 
-            // Filtrado por título
             if (!string.IsNullOrWhiteSpace(query.Title))
             {
                 projects = projects
@@ -74,7 +72,6 @@ namespace Application.Features.ProjectProposals.Queries.GetFilteredProjects
                     .ToList();
             }
 
-            // Filtrado por estado
             if (query.Status.HasValue)
             {
                 projects = projects
@@ -82,7 +79,6 @@ namespace Application.Features.ProjectProposals.Queries.GetFilteredProjects
                     .ToList();
             }
 
-            // Filtrado por creador/solicitante
             if (query.Applicant.HasValue)
             {
                 projects = projects
@@ -90,7 +86,6 @@ namespace Application.Features.ProjectProposals.Queries.GetFilteredProjects
                     .ToList();
             }
 
-            // Cargar diccionarios de nombres para evitar N+1 queries
             var areaDict = (await _areaRepository.GetAll()).ToDictionary(a => a.Id, a => a.Name);
             var statusDict = (await _statusRepository.GetAll()).ToDictionary(s => s.Id, s => s.Name);
             var typeDict = (await _typeRepository.GetAll()).ToDictionary(t => t.Id, t => t.Name);

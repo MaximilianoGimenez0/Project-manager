@@ -30,7 +30,6 @@ namespace Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Registra las configuraciones
             modelBuilder.ApplyConfiguration(new ApproverRoleConfiguration());
             modelBuilder.ApplyConfiguration(new ApprovalStatusConfiguration());
             modelBuilder.ApplyConfiguration(new ApprovalRuleConfiguration());
@@ -43,7 +42,6 @@ namespace Infrastructure.Persistence
 
             base.OnModelCreating(modelBuilder);
 
-            // ROLES
             modelBuilder.Entity<ApproverRole>().HasData(
                 new ApproverRole { Id = 1, Name = "Líder de Área", HierarchyLevel = 10, IsSpecializedRole = false },
                 new ApproverRole { Id = 2, Name = "Gerente", HierarchyLevel = 20, IsSpecializedRole = false },
@@ -51,7 +49,6 @@ namespace Infrastructure.Persistence
                 new ApproverRole { Id = 4, Name = "Comité Técnico", HierarchyLevel = 15, IsSpecializedRole = true }
             );
 
-            // ÁREAS
             modelBuilder.Entity<Area>().HasData(
                 new Area { Id = 1, Name = "Finanzas" },
                 new Area { Id = 2, Name = "Tecnología" },
@@ -59,7 +56,6 @@ namespace Infrastructure.Persistence
                 new Area { Id = 4, Name = "Operaciones" }
             );
 
-            // ESTADOS DE APROBACIÓN
             modelBuilder.Entity<ApprovalStatus>().HasData(
                 new ApprovalStatus { Id = 1, Name = "Pending" },
                 new ApprovalStatus { Id = 2, Name = "Approved" },
@@ -67,7 +63,6 @@ namespace Infrastructure.Persistence
                 new ApprovalStatus { Id = 4, Name = "Observed" }
             );
 
-            // TIPOS DE PROYECTO
             modelBuilder.Entity<ProjectType>().HasData(
                 new ProjectType { Id = 1, Name = "Mejora de Procesos" },
                 new ProjectType { Id = 2, Name = "Innovación y Desarrollo" },
@@ -75,7 +70,7 @@ namespace Infrastructure.Persistence
                 new ProjectType { Id = 4, Name = "Capacitación Interna" }
             );
 
-            // USUARIOS (Contraseña inicial por defecto: Password123!)
+            // Default seed password plaintext is Password123!
             const string defaultPasswordHash = "$2a$11$UkavkV5pLlUiGv3G0/BG8.SFCu2MDF69WeefFePdUe3q258G.P/aq";
             modelBuilder.Entity<User>().HasData(
                 new User { Id = 1, Name = "José Ferreyra", Email = "jferreyra@unaj.com", PasswordHash = defaultPasswordHash, Role = 2 },
@@ -88,7 +83,6 @@ namespace Infrastructure.Persistence
                 new User { Id = 8, Name = "Carlos Mendoza", Email = "cmendoza@unaj.com", PasswordHash = defaultPasswordHash, Role = 3 }
             );
 
-            // REGLAS
             modelBuilder.Entity<ApprovalRule>().HasData(
                 new ApprovalRule { Id = 1, MinAmount = 0, MaxAmount = 100000, StepOrder = 1, ApproverRoleId = 1 },
                 new ApprovalRule { Id = 2, MinAmount = 5000, MaxAmount = 20000, StepOrder = 2, ApproverRoleId = 2 },

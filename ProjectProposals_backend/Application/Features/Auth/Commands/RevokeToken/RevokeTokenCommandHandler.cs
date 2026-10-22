@@ -33,7 +33,7 @@ namespace Application.Features.Auth.Commands.RevokeToken
 
             if (!storedToken.IsActive)
             {
-                return true; // Ya está inactivo o revocado
+                return true;
             }
 
             storedToken.RevokedAt = DateTime.UtcNow;

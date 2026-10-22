@@ -37,7 +37,6 @@ namespace Application.Features.ProjectProposals.Commands.UpdateProjectProposal
 
             var request = command.Request;
 
-            // Comprobar unicidad de título si se modifica
             if (!string.IsNullOrWhiteSpace(request.Title) && !string.Equals(project.Title, request.Title, StringComparison.OrdinalIgnoreCase))
             {
                 var allProjects = await _projectProposalRepository.GetAll();
@@ -47,7 +46,6 @@ namespace Application.Features.ProjectProposals.Commands.UpdateProjectProposal
                 }
             }
 
-            // Solo se permite modificación si el proyecto está en estado Observado
             if (project.Status != (int)ApprovalStatusEnum.Observed)
             {
                 throw new BadRequestException("El proyecto se encuentra en un estado que no permite modificaciones.");

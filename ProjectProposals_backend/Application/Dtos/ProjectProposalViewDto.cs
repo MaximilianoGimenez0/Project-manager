@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +21,6 @@ namespace Application.Dtos
 
         public DateTime? CreateAt { get; set; }
 
-        //fk
         public string? Area { get; set; }
         public string? Type { get; set; }
         public string? Status { get; set; }

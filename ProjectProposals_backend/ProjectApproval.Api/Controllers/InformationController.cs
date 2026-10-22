@@ -18,10 +18,6 @@ namespace ProjectApproval.Api.Controllers
     {
         private readonly ISender _sender;
 
-        /// <summary>
-        /// Inicializa una nueva instancia de <see cref="InformationController"/>.
-        /// </summary>
-        /// <param name="sender">Mediador para la ejecución de consultas.</param>
         public InformationController(ISender sender)
         {
             _sender = sender;
@@ -34,7 +30,6 @@ namespace ProjectApproval.Api.Controllers
         /// Requiere autenticación (<c>Bearer &lt;token&gt;</c>).
         /// Devuelve la lista de áreas disponibles para asignar a las propuestas de proyectos (Finanzas, Tecnología, Recursos Humanos, Operaciones).
         /// </remarks>
-        /// <returns>Lista de áreas con su identificador y nombre.</returns>
         /// <response code="200">Listado de áreas obtenido exitosamente.</response>
         /// <response code="401">No autorizado (token ausente o inválido).</response>
         /// <response code="404">No se encontraron registros de áreas.</response>
@@ -55,7 +50,6 @@ namespace ProjectApproval.Api.Controllers
         /// Requiere autenticación (<c>Bearer &lt;token&gt;</c>).
         /// Devuelve los tipos de proyectos admitidos (Mejora de Procesos, Innovación y Desarrollo, Infraestructura, Capacitación Interna).
         /// </remarks>
-        /// <returns>Lista de tipos de proyectos con su identificador y nombre.</returns>
         /// <response code="200">Listado de tipos de proyectos obtenido exitosamente.</response>
         /// <response code="401">No autorizado (token ausente o inválido).</response>
         /// <response code="404">No se encontraron registros de tipos de proyectos.</response>
@@ -76,7 +70,6 @@ namespace ProjectApproval.Api.Controllers
         /// Requiere autenticación (<c>Bearer &lt;token&gt;</c>).
         /// Devuelve los roles aprobadores del sistema (Líder de Área, Gerente, Director, Comité Técnico).
         /// </remarks>
-        /// <returns>Lista de roles con su identificador y nombre.</returns>
         /// <response code="200">Listado de roles obtenido exitosamente.</response>
         /// <response code="401">No autorizado (token ausente o inválido).</response>
         /// <response code="404">No se encontraron registros de roles.</response>
@@ -97,7 +90,6 @@ namespace ProjectApproval.Api.Controllers
         /// Requiere autenticación (<c>Bearer &lt;token&gt;</c>).
         /// Devuelve los estados de aprobación posibles (Pending = 1, Approved = 2, Rejected = 3, Observed = 4).
         /// </remarks>
-        /// <returns>Lista de estados con su identificador y nombre.</returns>
         /// <response code="200">Listado de estados de aprobación obtenido exitosamente.</response>
         /// <response code="401">No autorizado (token ausente o inválido).</response>
         /// <response code="404">No se encontraron registros de estados.</response>
@@ -118,7 +110,6 @@ namespace ProjectApproval.Api.Controllers
         /// Requiere autenticación (<c>Bearer &lt;token&gt;</c>).
         /// Devuelve los usuarios registrados con su identificador, nombre, email y el rol asociado.
         /// </remarks>
-        /// <returns>Lista de usuarios con su información básica y de rol.</returns>
         /// <response code="200">Listado de usuarios obtenido exitosamente.</response>
         /// <response code="401">No autorizado (token ausente o inválido).</response>
         /// <response code="404">No se encontraron usuarios registrados.</response>

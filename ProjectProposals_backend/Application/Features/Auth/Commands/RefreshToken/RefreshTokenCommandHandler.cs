@@ -44,7 +44,7 @@ namespace Application.Features.Auth.Commands.RefreshToken
                 throw new UnauthorizedException("Token de actualización inválido.");
             }
 
-            // Detección de reúso de token comprometido
+            // Revoke all active sessions upon detecting reuse of an already invalidated token
             if (storedToken.IsRevoked)
             {
                 await _refreshTokenRepository.RevokeUserTokens(
@@ -66,11 +66,9 @@ namespace Application.Features.Auth.Commands.RefreshToken
                 throw new UnauthorizedException("El usuario asociado al token no existe.");
             }
 
-            // Generar nuevo par de tokens (Rotación)
             var newRefreshToken = _jwtTokenService.GenerateRefreshToken(command.IpAddress);
             newRefreshToken.UserId = user.Id;
 
-            // Revocar el token anterior reemplazándolo por el nuevo
             storedToken.RevokedAt = DateTime.UtcNow;
             storedToken.RevokedByIp = command.IpAddress;
             storedToken.ReplacedByToken = newRefreshToken.Token;

@@ -18,7 +18,6 @@ using ProjectApproval.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Forwarded Headers for Reverse Proxies (Nginx, Caddy, Cloudflare, Traefik)
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
@@ -26,15 +25,12 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
     options.KnownProxies.Clear();
 });
 
-// Clean Architecture Layers
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
-// User context accessor & services
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
-// JWT Authentication Configuration
 var secretKey = builder.Configuration["JwtSettings:SecretKey"] 
     ?? throw new InvalidOperationException("JwtSettings:SecretKey is not configured.");
 var issuer = builder.Configuration["JwtSettings:Issuer"] ?? "ProjectProposalsApi";
@@ -94,7 +90,6 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// Controllers & API Configuration
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -134,13 +129,12 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// Suppress automatic model state validation to handle errors uniformly
+// Allow custom middleware and filters to handle validation error responses uniformly
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
 });
 
-// CORS Configuration
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
@@ -155,13 +149,10 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Forwarded Headers Middleware (crucial when hosted behind Nginx, Caddy, Cloudflare, Traefik)
 app.UseForwardedHeaders();
 
-// Global Exception Handling Middleware
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-// HTTP Request Pipeline / Swagger UI (enabled in Development or when EnableSwagger is true)
 var enableSwagger = app.Environment.IsDevelopment() || builder.Configuration.GetValue<bool>("EnableSwagger", false);
 if (enableSwagger)
 {
@@ -176,7 +167,6 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Automatic Database Migrations
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

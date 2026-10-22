@@ -45,7 +45,6 @@ namespace Application.Features.ProjectProposals.Commands.DecideProjectStep
                 throw new BadRequestException("El proyecto ingresado no existe.");
             }
 
-            // Validar si el proyecto está en un estado terminal
             if (project.Status == (int)ApprovalStatusEnum.Approved || project.Status == (int)ApprovalStatusEnum.Rejected)
             {
                 throw new ConflictException("El proyecto ya no se encuentra en un estado que permite modificaciones.");
@@ -58,13 +57,11 @@ namespace Application.Features.ProjectProposals.Commands.DecideProjectStep
                 throw new BadRequestException("El usuario ingresado no existe.");
             }
 
-            // Validar segregación de funciones: el creador no puede aprobar su propia propuesta
             if (project.CreateBy != 0 && project.CreateBy == user.Id)
             {
                 throw new ConflictException("El usuario creador de la propuesta no puede actuar como aprobador de la misma.");
             }
 
-            // Encontrar el próximo paso pendiente de aprobación
             var nextStep = project.Steps?
                 .Where(s => s.Status == (int)ApprovalStatusEnum.Pending || s.Status == (int)ApprovalStatusEnum.Observed)
                 .OrderBy(s => s.StepOrder)
@@ -85,7 +82,6 @@ namespace Application.Features.ProjectProposals.Commands.DecideProjectStep
                 throw new BadRequestException("El rol del usuario no corresponde, no puede aprobar este paso.");
             }
 
-            // Actualizar la decisión en el paso
             nextStep.Status = request.Status;
             nextStep.DecisionDate = DateTime.UtcNow;
             nextStep.ApproverUserId = request.User;
@@ -97,7 +93,6 @@ namespace Application.Features.ProjectProposals.Commands.DecideProjectStep
                 throw new BadRequestException("Datos de decisión inválidos.");
             }
 
-            // Recalcular estado global del proyecto
             var steps = project.Steps ?? new List<ProjectApprovalStep>();
             if (steps.Any(s => s.Status == (int)ApprovalStatusEnum.Rejected))
             {

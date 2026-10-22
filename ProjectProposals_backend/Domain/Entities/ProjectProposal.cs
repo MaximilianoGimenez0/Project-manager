@@ -20,13 +20,10 @@ namespace Domain.Entities
 
         public DateTime CreateAt { get; set; }
 
-        //fk
         public int Area { get; set; }
         public int Type { get; set; }
         public int Status { get; set; }
         public int CreateBy { get; set; }
-
-        //objetos referenciados
 
         public Area? ProjectProposalArea { get; set; }
         public ProjectType? ProjectProposalType { get; set; }

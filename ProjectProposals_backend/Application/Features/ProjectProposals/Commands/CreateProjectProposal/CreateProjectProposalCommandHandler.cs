@@ -53,28 +53,24 @@ namespace Application.Features.ProjectProposals.Commands.CreateProjectProposal
                 throw new BadRequestException("Todos los campos obligatorios deben completarse.");
             }
 
-            // Validar existencia de clave foránea con Área
             var area = await _areaRepository.GetById(request.Area.Value);
             if (area == null)
             {
                 throw new BadRequestException("El área ingresada no existe.");
             }
 
-            // Validar existencia de clave foránea con Tipo de Proyecto
             var type = await _projectTypeRepository.GetById(request.Type.Value);
             if (type == null)
             {
                 throw new BadRequestException("El tipo de proyecto ingresado no existe.");
             }
 
-            // Validar existencia de clave foránea con Usuario
             var user = await _userRepository.GetById(request.User.Value);
             if (user == null)
             {
                 throw new BadRequestException("El usuario creador ingresado no existe.");
             }
 
-            // Comprobar unicidad de título
             var allProjects = await _projectProposalRepository.GetAll();
             if (allProjects.Any(p => string.Equals(p.Title, request.Title, StringComparison.OrdinalIgnoreCase)))
             {
@@ -96,7 +92,6 @@ namespace Application.Features.ProjectProposals.Commands.CreateProjectProposal
                 CreateBy = request.User.Value
             };
 
-            // Calcular pasos según las reglas de negocio
             var steps = await _approvalStepEngine.CalculateStepsAsync(proposal);
             if (steps == null || steps.Count == 0)
             {

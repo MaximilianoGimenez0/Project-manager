@@ -27,7 +27,6 @@ namespace Application.Common.Services
         {
             var rules = await _ruleRepository.GetAll();
 
-            // Filtrar reglas aplicables según monto, área y tipo
             var applicableRules = rules
                 .Where(rule =>
                     rule.MinAmount <= project.EstimatedAmount &&
@@ -51,7 +50,6 @@ namespace Application.Common.Services
 
             foreach (var group in groupedByStep)
             {
-                // Seleccionar la regla más específica (priorizando coincidencia por área y tipo)
                 var selected = group
                     .OrderByDescending(r =>
                         (r.Area != null ? 1 : 0) + (r.Type != null ? 1 : 0)
@@ -65,14 +63,11 @@ namespace Application.Common.Services
                 }
             }
 
-            // Deduplicar roles requeridos para evitar múltiples pasos con el mismo rol
             var distinctRoleIds = selectedRoleIds.Distinct().ToList();
 
-            // Cargar catálogo de roles para resolver niveles jerárquicos
             var roles = _roleRepository != null ? await _roleRepository.GetAll() : new List<ApproverRole>();
             var roleMap = roles.ToDictionary(r => r.Id);
 
-            // Ordenar según jerarquía organizacional (HierarchyLevel ascendente)
             var orderedRoles = distinctRoleIds
                 .Select(id =>
                 {
@@ -81,6 +76,7 @@ namespace Application.Common.Services
                         return role;
                     }
 
+                    // Fallback hierarchy levels prevent sorting failures if database roles lack hierarchy data
                     var defaultLevel = id switch
                     {
                         (int)ApproverRoleEnum.AreaLeader => 10,
@@ -101,7 +97,6 @@ namespace Application.Common.Services
                 .ThenBy(r => r.Id)
                 .ToList();
 
-            // Generar pasos secuenciales y correlativos (1, 2, 3...) sin huecos
             var steps = new List<ProjectApprovalStep>();
             for (int i = 0; i < orderedRoles.Count; i++)
             {

@@ -29,11 +29,6 @@ namespace ProjectApproval.Api.Controllers
         private readonly ISender _sender;
         private readonly ICurrentUserService _currentUserService;
 
-        /// <summary>
-        /// Inicializa una nueva instancia de <see cref="ProjectController"/>.
-        /// </summary>
-        /// <param name="sender">Mediador para la ejecución de comandos y consultas (CQRS).</param>
-        /// <param name="currentUserService">Servicio para acceder a la identidad y claims del usuario autenticado.</param>
         public ProjectController(ISender sender, ICurrentUserService currentUserService)
         {
             _sender = sender;
@@ -48,8 +43,6 @@ namespace ProjectApproval.Api.Controllers
         /// Asigna automáticamente al usuario autenticado como creador (<c>CreateBy</c>) para evitar suplantaciones de identidad.
         /// Valida la existencia del Área y Tipo de Proyecto, la unicidad del título y calcula los pasos ordenados de aprobación.
         /// </remarks>
-        /// <param name="request">Datos requeridos de la propuesta (Título, Descripción, Monto estimado, Duración, Área y Tipo).</param>
-        /// <returns>La propuesta de proyecto creada con sus pasos de aprobación generados.</returns>
         /// <response code="201">Propuesta creada exitosamente.</response>
         /// <response code="400">Datos obligatorios ausentes, área/tipo inexistente o título duplicado.</response>
         /// <response code="401">No autorizado (token ausente o inválido).</response>
@@ -76,8 +69,6 @@ namespace ProjectApproval.Api.Controllers
         /// Requiere autenticación (<c>Bearer &lt;token&gt;</c>).
         /// Devuelve los datos generales del proyecto, estado global, solicitante y el detalle de cada paso del flujo con sus aprobadores y observaciones.
         /// </remarks>
-        /// <param name="id">Identificador único de la propuesta (Guid).</param>
-        /// <returns>Detalles completos del proyecto y sus pasos.</returns>
         /// <response code="200">Propuesta de proyecto encontrada.</response>
         /// <response code="400">El identificador proporcionado es inválido o vacío.</response>
         /// <response code="401">No autorizado (token ausente o inválido).</response>
@@ -109,7 +100,6 @@ namespace ProjectApproval.Api.Controllers
         /// <param name="status">Filtro opcional por estado de aprobación (Pending = 1, Approved = 2, Rejected = 3, Observed = 4).</param>
         /// <param name="applicant">Filtro opcional por identificador de usuario solicitante/creador.</param>
         /// <param name="approvalUser">Filtro opcional por identificador de usuario aprobador de algún paso.</param>
-        /// <returns>Lista de propuestas de proyecto en formato resumido.</returns>
         /// <response code="200">Listado de proyectos obtenido exitosamente.</response>
         /// <response code="400">Parámetros de búsqueda con formato inválido (título superior a 255 caracteres).</response>
         /// <response code="401">No autorizado (token ausente o inválido).</response>
@@ -141,9 +131,6 @@ namespace ProjectApproval.Api.Controllers
         /// Requiere autenticación (<c>Bearer &lt;token&gt;</c>).
         /// Permite actualizar atributos generales del proyecto antes de que se concluya el flujo de aprobaciones.
         /// </remarks>
-        /// <param name="id">Identificador único de la propuesta a modificar (Guid).</param>
-        /// <param name="request">Campos a actualizar (Title, Description, Amount, Duration).</param>
-        /// <returns>La propuesta de proyecto con los datos actualizados.</returns>
         /// <response code="200">Propuesta modificada exitosamente.</response>
         /// <response code="400">Identificador vacío o datos de actualización inválidos.</response>
         /// <response code="401">No autorizado (token ausente o inválido).</response>
@@ -180,9 +167,8 @@ namespace ProjectApproval.Api.Controllers
         /// 
         /// Recalcula el estado general del proyecto: si se rechaza pasa a <c>Rejected</c>, si todos los pasos son aprobados pasa a <c>Approved</c>, si se observa pasa a <c>Observed</c>.
         /// </remarks>
-        /// <param name="id">Identificador único de la propuesta de proyecto (Guid).</param>
+        /// <param name="id">Identificador único de la propuesta de proyecto.</param>
         /// <param name="request">Datos de la decisión: Id del paso, Status (2 = Approved, 3 = Rejected, 4 = Observed) y Observation opcional.</param>
-        /// <returns>La propuesta de proyecto con el paso y estado global actualizados.</returns>
         /// <response code="200">Decisión registrada exitosamente.</response>
         /// <response code="400">Paso no correspondiente, rol incompatible o validación fallida.</response>
         /// <response code="401">No autorizado (token ausente o inválido).</response>
@@ -219,7 +205,6 @@ namespace ProjectApproval.Api.Controllers
         /// Permite a los usuarios de un rol aprobador consultar su bandeja de trabajo (proyectos esperando su intervención).
         /// </remarks>
         /// <param name="role">Identificador del rol aprobador (1: Líder de Área, 2: Gerente, 3: Director, 4: Comité Técnico).</param>
-        /// <returns>Lista de propuestas de proyectos pendientes para el rol indicado.</returns>
         /// <response code="200">Lista de propuestas pendientes obtenida exitosamente.</response>
         /// <response code="400">El rol especificado se encuentra fuera del rango permitido.</response>
         /// <response code="401">No autorizado (token ausente o inválido).</response>
