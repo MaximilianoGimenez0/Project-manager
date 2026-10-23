@@ -26,7 +26,7 @@ export default function Footer() {
             <a href="https://wa.me/5491140675852" target="_blank" rel="noreferrer" aria-label="WhatsApp">
               <FaWhatsapp />
             </a>
-            <a href="https://www.linkedin.com/in/maximiliano-gim%C3%A9nez-2644b0338/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/in/maximilianogimenez0/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
               <FaLinkedin />
             </a>
           </div>
